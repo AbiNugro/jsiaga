@@ -1,0 +1,97 @@
+version: 1
+project:
+  name: jsiaga-website
+  rootDir: ..
+artifacts:
+  rootDir: ui-evidence/screenshots
+  notesLanguage: id
+  reportLanguage: id
+  overviewViewport: mobile-390
+capture:
+  baseUrl: http://127.0.0.1:8000
+  browser:
+    headless: true
+    freezeAnimations: true
+    waitForFonts: true
+    waitForNetworkIdleMs: 1500
+  viewports:
+    - id: mobile-360
+      viewport:
+        width: 360
+        height: 800
+      locale: id-ID
+      timezoneId: Asia/Jakarta
+    - id: mobile-390
+      viewport:
+        width: 390
+        height: 844
+      locale: id-ID
+      timezoneId: Asia/Jakarta
+    - id: tablet-768
+      viewport:
+        width: 768
+        height: 1024
+      locale: id-ID
+      timezoneId: Asia/Jakarta
+    - id: desktop-1366
+      viewport:
+        width: 1366
+        height: 768
+      locale: id-ID
+      timezoneId: Asia/Jakarta
+    - id: desktop-1440
+      viewport:
+        width: 1440
+        height: 900
+      locale: id-ID
+      timezoneId: Asia/Jakarta
+servers:
+  after:
+    baseUrl: http://127.0.0.1:8000
+    command: php artisan serve --host=127.0.0.1 --port=8000
+report:
+  language: id
+  checklist:
+    - layout responsif tanpa overflow horizontal
+    - navigasi bawah dan sidebar
+    - keterbacaan angka sensor dan status
+    - grafik dan gauge berada di dalam kartu
+    - input chatbot tetap terlihat
+stages:
+  - id: aplikasi-jsiaga
+    title: Aplikasi J-SIAGA
+    description: Audit visual dashboard monitoring banjir pada seluruh viewport wajib.
+    defaultViewports:
+      - mobile-360
+      - mobile-390
+      - tablet-768
+      - desktop-1366
+      - desktop-1440
+    screens:
+      - id: beranda
+        fileId: beranda
+        label: Beranda
+        path: /
+        waitFor:
+          selector: '[data-page="home"]'
+      - id: riwayat
+        fileId: riwayat
+        label: Riwayat
+        path: /riwayat?range=1h
+        waitFor:
+          selector: '[data-page="history"]'
+      - id: rekomendasi
+        fileId: rekomendasi
+        label: Rekomendasi
+        path: /rekomendasi
+        waitFor:
+          selector: '[data-page="recommendations"]'
+      - id: chatbot
+        fileId: chatbot
+        label: Chatbot
+        path: /chatbot
+        waitFor:
+          selector: '[data-page="chat"]'
+runtime:
+  stateDir: ui-evidence/state
+  tempDir: ui-evidence/tmp

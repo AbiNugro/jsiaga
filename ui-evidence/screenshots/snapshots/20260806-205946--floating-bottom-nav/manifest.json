@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "kind": "snapshot-run",
+  "generatedAt": "2026-08-06T20:59:46.518Z",
+  "run": {
+    "id": "20260806-205946--floating-bottom-nav",
+    "label": "floating-bottom-nav",
+    "title": "Current UI Snapshot · floating-bottom-nav",
+    "description": "Current UI snapshot for 1 stage(s) and 2 selected screen(s).",
+    "selectionMode": "direct",
+    "baseUrl": "http://127.0.0.1:8011"
+  },
+  "scope": null,
+  "selection": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenIds": [
+        "beranda",
+        "chatbot"
+      ],
+      "screenLabels": [
+        "Beranda",
+        "Chatbot"
+      ],
+      "viewportIds": [
+        "mobile-360",
+        "mobile-390"
+      ]
+    }
+  ],
+  "artifacts": {
+    "notes": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/notes.id.md",
+    "report": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/report.id.md",
+    "manifest": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/manifest.json",
+    "review": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/review/index.html",
+    "current": [
+      "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/beranda__default__mobile-360__current.png",
+      "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/chatbot__default__mobile-360__current.png",
+      "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/beranda__default__mobile-390__current.png",
+      "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/chatbot__default__mobile-390__current.png"
+    ],
+    "overviews": [
+      "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/overview/aplikasi-jsiaga__mobile-360__snapshot-overview.png",
+      "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/overview/aplikasi-jsiaga__mobile-390__snapshot-overview.png"
+    ]
+  },
+  "bundle": {
+    "selfContained": true,
+    "origin": "snapshot-run"
+  },
+  "failures": [],
+  "captures": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/beranda__default__mobile-360__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/chatbot__default__mobile-360__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "current": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/beranda__default__mobile-390__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "current": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/captures/aplikasi-jsiaga/chatbot__default__mobile-390__current.png"
+    }
+  ],
+  "overviewEntries": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "mobile-360",
+      "path": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/overview/aplikasi-jsiaga__mobile-360__snapshot-overview.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "mobile-390",
+      "path": "ui-evidence/screenshots/snapshots/20260806-205946--floating-bottom-nav/overview/aplikasi-jsiaga__mobile-390__snapshot-overview.png"
+    }
+  ],
+  "commands": {
+    "rerun": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --screens beranda,chatbot --viewports mobile-360,mobile-390 --label floating-bottom-nav",
+    "rebuild": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --screens beranda,chatbot --viewports mobile-360,mobile-390 --label floating-bottom-nav"
+  },
+  "counts": {
+    "stages": 1,
+    "screens": 2,
+    "expectedCaptures": 4,
+    "captures": 4,
+    "overviews": 2,
+    "failedCaptures": 0
+  }
+}

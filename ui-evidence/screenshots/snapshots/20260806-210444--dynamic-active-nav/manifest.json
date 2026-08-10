@@ -1,0 +1,91 @@
+{
+  "version": 1,
+  "kind": "snapshot-run",
+  "generatedAt": "2026-08-06T21:04:44.946Z",
+  "run": {
+    "id": "20260806-210444--dynamic-active-nav",
+    "label": "dynamic-active-nav",
+    "title": "Current UI Snapshot · dynamic-active-nav",
+    "description": "Current UI snapshot for 1 stage(s) and 2 selected screen(s).",
+    "selectionMode": "direct",
+    "baseUrl": "http://127.0.0.1:8012"
+  },
+  "scope": null,
+  "selection": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenIds": [
+        "beranda",
+        "riwayat"
+      ],
+      "screenLabels": [
+        "Beranda",
+        "Riwayat"
+      ],
+      "viewportIds": [
+        "mobile-360"
+      ]
+    }
+  ],
+  "artifacts": {
+    "notes": "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/notes.id.md",
+    "report": "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/report.id.md",
+    "manifest": "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/manifest.json",
+    "review": "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/review/index.html",
+    "current": [
+      "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/captures/aplikasi-jsiaga/beranda__default__mobile-360__current.png",
+      "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/captures/aplikasi-jsiaga/riwayat__default__mobile-360__current.png"
+    ],
+    "overviews": [
+      "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/overview/aplikasi-jsiaga__mobile-360__snapshot-overview.png"
+    ]
+  },
+  "bundle": {
+    "selfContained": true,
+    "origin": "snapshot-run"
+  },
+  "failures": [],
+  "captures": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/captures/aplikasi-jsiaga/beranda__default__mobile-360__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/captures/aplikasi-jsiaga/riwayat__default__mobile-360__current.png"
+    }
+  ],
+  "overviewEntries": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "mobile-360",
+      "path": "ui-evidence/screenshots/snapshots/20260806-210444--dynamic-active-nav/overview/aplikasi-jsiaga__mobile-360__snapshot-overview.png"
+    }
+  ],
+  "commands": {
+    "rerun": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --screens beranda,riwayat --viewports mobile-360 --label dynamic-active-nav",
+    "rebuild": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --screens beranda,riwayat --viewports mobile-360 --label dynamic-active-nav"
+  },
+  "counts": {
+    "stages": 1,
+    "screens": 2,
+    "expectedCaptures": 2,
+    "captures": 2,
+    "overviews": 1,
+    "failedCaptures": 0
+  }
+}
