@@ -1,3 +1,5 @@
+Tes otomatisasi GitHub Actions ke VPS
+
 # J-SIAGA
 
 J-SIAGA adalah aplikasi monitoring banjir berbasis Laravel yang menerima pembacaan ESP melalui Node-RED, menghitung ulang status banjir di server, menyimpan riwayat sensor, dan menyajikan dashboard, rekomendasi keselamatan, serta chatbot hibrida lokal/Groq.
@@ -118,13 +120,13 @@ Halaman web:
 
 ## API
 
-| Method | Endpoint | Keterangan |
-| --- | --- | --- |
-| POST | `/api/v1/sensor-readings` | Simpan sensor, wajib `X-Device-Token` |
-| GET | `/api/v1/sensor-readings/latest` | Pembacaan terbaru |
-| GET | `/api/v1/sensor-readings/history?range=1h` | Riwayat; range `1h`, `6h`, `24h`, atau `7d` |
-| POST | `/api/v1/chat` | Chat lokal/Groq |
-| POST | `/api/v1/recommendations/explain` | Penjelasan Groq opsional |
+| Method | Endpoint                                   | Keterangan                                  |
+| ------ | ------------------------------------------ | ------------------------------------------- |
+| POST   | `/api/v1/sensor-readings`                  | Simpan sensor, wajib `X-Device-Token`       |
+| GET    | `/api/v1/sensor-readings/latest`           | Pembacaan terbaru                           |
+| GET    | `/api/v1/sensor-readings/history?range=1h` | Riwayat; range `1h`, `6h`, `24h`, atau `7d` |
+| POST   | `/api/v1/chat`                             | Chat lokal/Groq                             |
+| POST   | `/api/v1/recommendations/explain`          | Penjelasan Groq opsional                    |
 
 Contoh pengiriman sensor:
 
@@ -155,8 +157,8 @@ Laravel mengabaikan `status` dan `water_level` dari client lalu menghitung ulang
 1. Jalankan Laravel dengan `--host=0.0.0.0` agar dapat diakses dari perangkat jaringan.
 2. Import `node-red-laravel-bridge.json` melalui menu **Import** Node-RED.
 3. Atur environment Node-RED:
-   - `JSIAGA_DEVICE_TOKEN` sama dengan `.env` Laravel.
-   - `JSIAGA_LARAVEL_URL`, misalnya `http://192.168.1.10:8000`.
+    - `JSIAGA_DEVICE_TOKEN` sama dengan `.env` Laravel.
+    - `JSIAGA_LARAVEL_URL`, misalnya `http://192.168.1.10:8000`.
 4. Pada flow asli, cari node **Process Sensor + Auto Servo IP203**.
 5. Tambahkan cabang wire baru dari **output pertama (status)** menuju **Prepare Laravel Payload** di flow bridge.
 6. Jangan melepas wire lama dan jangan mengubah output servo ke ESP2.
