@@ -71,13 +71,16 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     right: .75rem;
     bottom: max(.75rem, env(safe-area-inset-bottom));
     left: .75rem;
+    backface-visibility: hidden;
+    transform: translate3d(0, 0, 0);
 }
 
 .bottom-nav-shell {
     display: grid;
+    height: 5rem;
     max-width: 28rem;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    align-items: end;
+    align-items: center;
     gap: .25rem;
     margin-inline: auto;
     border-radius: 1.75rem;
@@ -88,7 +91,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 .bottom-nav-item {
     display: flex;
-    min-height: 62px;
+    height: 4rem;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -97,26 +100,30 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
     color: var(--color-muted);
     font-size: .6875rem;
     font-weight: 650;
-    transition: color 150ms ease-out, scale 150ms ease-out;
+    line-height: 1;
+    touch-action: manipulation;
+    transition: color 150ms ease-out;
 }
 .bottom-nav-item:active { scale: .96; }
 .bottom-nav-item-active { color: var(--color-teal-dark); }
 
 .bottom-nav-icon {
     display: grid;
-    width: 2.5rem;
-    height: 2.5rem;
-    place-items: center;
-    border-radius: .75rem;
-    transition: background-color 150ms ease-out, color 150ms ease-out;
-}
-.bottom-nav-item-active .bottom-nav-icon {
     width: 3rem;
     height: 3rem;
+    flex: 0 0 3rem;
+    place-items: center;
     border-radius: 999px;
+    transition: background-color 150ms ease-out, color 150ms ease-out, box-shadow 150ms ease-out;
+}
+.bottom-nav-item-active .bottom-nav-icon {
     background: var(--color-teal);
     color: white;
     box-shadow: 0 0 0 4px var(--color-sky-soft), 0 7px 18px -8px rgba(8, 124, 116, 1);
+}
+
+@media (hover: none), (pointer: coarse) {
+    .bottom-nav-item:active { scale: 1; }
 }
 
 .connection-pill, .status-badge {
