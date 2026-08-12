@@ -8,7 +8,7 @@
 @endphp
 
 <aside class="sticky top-0 hidden h-dvh border-r border-navy/5 bg-white px-5 py-7 lg:flex lg:flex-col">
-    <x-app-logo class="px-2" />
+    <x-app-logo class="app-logo-desktop w-full justify-center" />
     <nav class="mt-10 space-y-2" aria-label="{{ __('ui.nav.main') }}">
         @foreach($items as $item)
             <a href="{{ route($item['route']) }}" @class(['nav-item', 'nav-item-active' => request()->routeIs($item['route'])])>

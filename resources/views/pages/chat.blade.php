@@ -1,8 +1,11 @@
 <x-layouts.app :title="__('ui.chat.title')" :latest="$latest">
-    <div data-page="chat" class="chat-shell">
-        <header class="flex items-center gap-3 border-b border-navy/5 px-1 pb-4">
-            <span class="grid size-11 shrink-0 place-items-center rounded-2xl bg-teal text-white"><x-icon name="bot" class="size-6" /></span>
-            <div><h1 class="text-balance text-lg font-bold text-ink">J-SIAGA Assistant</h1><p class="flex items-center gap-1.5 text-xs text-muted"><span class="size-2 rounded-full bg-safe"></span> {{ __('ui.chat.ready') }}</p></div>
+    @php($chatOnline = $latest && $latest->effectiveStatus() !== 'OFFLINE')
+    <div data-page="chat" class="chat-shell -mt-1 lg:-mt-3">
+        <header class="flex items-center justify-start gap-3 border-b border-navy/5 px-1 pb-3">
+            <span class="flex size-14 shrink-0 items-center justify-center" aria-hidden="true">
+                <img src="{{ asset('images/icon-bot.png') }}" alt="" class="block size-full object-contain">
+            </span>
+            <div><h1 class="text-balance text-lg font-bold text-ink">J-SIAGA Assistant</h1><p data-chat-connection-status class="text-xs italic text-muted">{{ $chatOnline ? __('ui.chat.ready') : __('ui.chat.offline') }}</p></div>
         </header>
 
         <div id="chatMessages" class="chat-messages" aria-live="polite">

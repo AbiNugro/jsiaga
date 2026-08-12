@@ -1,16 +1,19 @@
 # J-SIAGA
 
-J-SIAGA adalah aplikasi monitoring banjir berbasis Laravel yang menerima pembacaan ESP melalui Node-RED, menghitung ulang status banjir di server, menyimpan riwayat sensor, dan menyajikan dashboard, rekomendasi keselamatan, serta chatbot hibrida lokal/Groq.
+J-SIAGA adalah aplikasi monitoring banjir berbasis Laravel yang menerima pembacaan ESP melalui HiveMQ, menghitung ulang status banjir di server, menyimpan riwayat sensor, dan menyajikan dashboard, rekomendasi keselamatan, serta chatbot hibrida lokal/Groq.
 
 Antarmuka mendukung Bahasa Indonesia, English, dan 한국어 melalui pemilih bahasa pada header mobile atau sidebar desktop. Pilihan disimpan di session dan juga diterapkan pada jawaban chatbot lokal serta bahasa respons Groq.
 
 ## Arsitektur
 
 ```text
-ESP 1 + ESP 2 → Node-RED → Laravel API → Database → Dashboard Laravel
+ESP 1 + ESP 2 → HiveMQ → MQTT bridge → Laravel API → SQLite → Dashboard Laravel
+                              └──── status jembatan → ESP 2
 ```
 
-Node-RED tetap menangani input ESP dan perintah servo ESP2. Laravel menjadi sumber kebenaran kedua untuk validasi, status, level air, riwayat, dan antarmuka. Flow tambahan tersedia di `node-red-laravel-bridge.json`; flow asli tidak diubah.
+Untuk pengujian lokal, proses `scripts/mqtt-bridge.mjs` menggantikan peran penerima data pada contoh `arman tes`: bridge berlangganan topik ESP1 dan ESP2, meneruskan telemetri ke Laravel, lalu mengirim status hasil perhitungan Laravel kembali ke servo ESP2. Kredensial HiveMQ hanya dibaca dari `.env` dan tidak pernah dikirim ke browser.
+
+Node-RED tetap dapat dipakai sebagai dashboard/otomasi tambahan, tetapi tidak wajib untuk membuat website lokal menerima data HiveMQ.
 
 ## Requirement
 
@@ -19,7 +22,7 @@ Node-RED tetap menangani input ESP dan perintah servo ESP2. Laravel menjadi sumb
 - Node.js 20 atau lebih baru (dikembangkan dengan Node.js 22)
 - npm 10 atau lebih baru
 - Ekstensi PHP SQLite untuk pengembangan
-- Node-RED untuk integrasi perangkat
+- Akun HiveMQ Cloud dan credential MQTT perangkat
 
 Versi utama proyek saat ini: Laravel 13, Tailwind CSS 4, Vite 8, dan Chart.js 4.
 
@@ -60,12 +63,17 @@ DB_CONNECTION=sqlite
 JSIAGA_DEVICE_TOKEN=ganti-dengan-token-panjang-dan-acak
 JSIAGA_OFFLINE_SECONDS=15
 
+MQTT_HOST=cluster-anda.s1.eu.hivemq.cloud
+MQTT_PORT=8883
+MQTT_USERNAME=jsiaga_device
+MQTT_PASSWORD=password-hivemq-anda
+
 GROQ_API_KEY=
 GROQ_MODEL=llama-3.1-8b-instant
 GROQ_TIMEOUT=10
 ```
 
-`JSIAGA_DEVICE_TOKEN` wajib diisi dengan token yang sama pada Laravel dan environment Node-RED. `GROQ_API_KEY` opsional; status, rekomendasi lokal, dan pertanyaan sensor tetap bekerja tanpa Groq. Jangan commit `.env` atau menaruh secret di JavaScript.
+`JSIAGA_DEVICE_TOKEN` wajib diisi dan digunakan oleh bridge lokal saat mengirim data ke Laravel. Isi `MQTT_HOST`, `MQTT_USERNAME`, dan `MQTT_PASSWORD` dengan credential HiveMQ yang sama dengan ESP. `GROQ_API_KEY` opsional; status, rekomendasi lokal, dan pertanyaan sensor tetap bekerja tanpa Groq. Jangan commit `.env` atau menaruh secret di JavaScript.
 
 Jika konfigurasi baru belum terbaca:
 
@@ -83,7 +91,17 @@ php artisan jsiaga:seed-demo
 
 Command ini hanya dijalankan dari CLI dan tidak diekspos sebagai tombol publik.
 
-## Menjalankan aplikasi
+## Menjalankan aplikasi secara lokal dengan HiveMQ
+
+Cara paling mudah adalah menjalankan Laravel, Vite, dan bridge MQTT sekaligus:
+
+```bash
+npm run local:mqtt
+```
+
+Perintah tersebut menjalankan Laravel pada `0.0.0.0:8000`. Saat berhasil, terminal menampilkan `[HiveMQ] Terhubung`. Ketika ESP1 mengirim data, terminal menampilkan level air dan status hasil Laravel. Di laptop yang sama buka `http://127.0.0.1:8000`; dari perangkat lain dalam Wi-Fi yang sama gunakan `http://IP_LAPTOP:8000`. Data akan dianggap online selama ESP terus mengirim.
+
+Jika ingin menjalankan tiap proses secara terpisah, gunakan tiga terminal.
 
 Terminal pertama:
 
@@ -95,6 +113,12 @@ Terminal kedua untuk pengembangan frontend:
 
 ```bash
 npm run dev
+```
+
+Terminal ketiga untuk penerima HiveMQ:
+
+```bash
+npm run mqtt:bridge
 ```
 
 Atau jalankan seluruh proses pengembangan—server, queue, log, Vite, dan scheduler—dengan satu command:
@@ -150,7 +174,9 @@ Laravel mengabaikan `status` dan `water_level` dari client lalu menghitung ulang
 - `water_level = clamp(round(((12 - distance) / (12 - 6)) × 100), 0, 100)`
 - Jarak `12 cm` berarti level `0%`, sedangkan jarak `6 cm` atau kurang berarti level `100%`.
 
-## Menghubungkan Node-RED
+## Node-RED opsional
+
+Jika tetap ingin memakai Node-RED, flow lama masih tersedia. Jangan jalankan bridge Node-RED dan `npm run mqtt:bridge` bersamaan karena keduanya akan menyimpan telemetri yang sama.
 
 1. Jalankan Laravel dengan `--host=0.0.0.0` agar dapat diakses dari perangkat jaringan.
 2. Import `node-red-laravel-bridge.json` melalui menu **Import** Node-RED.

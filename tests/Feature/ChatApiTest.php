@@ -219,7 +219,7 @@ class ChatApiTest extends TestCase
         $this->postJson('/api/v1/chat', ['message' => 'Data sensor'])
             ->assertOk()
             ->assertJsonPath('data.source', 'lokal')
-            ->assertJsonFragment(['answer' => 'Belum ada pembacaan sensor yang tersimpan. Pastikan Node-RED sudah mengirim data ke Laravel.']);
+            ->assertJsonFragment(['answer' => 'Belum ada pembacaan sensor yang tersimpan. Pastikan ESP terhubung ke HiveMQ dan bridge MQTT sedang berjalan.']);
     }
 
     public function test_pesan_terlalu_panjang_ditolak(): void

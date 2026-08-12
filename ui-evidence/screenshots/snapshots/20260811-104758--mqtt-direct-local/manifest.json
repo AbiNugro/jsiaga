@@ -1,0 +1,325 @@
+{
+  "version": 1,
+  "kind": "snapshot-run",
+  "generatedAt": "2026-08-11T10:47:58.801Z",
+  "run": {
+    "id": "20260811-104758--mqtt-direct-local",
+    "label": "mqtt-direct-local",
+    "title": "Current UI Snapshot · mqtt-direct-local",
+    "description": "Current UI snapshot for 1 stage(s) and 4 selected screen(s).",
+    "selectionMode": "direct",
+    "baseUrl": "http://127.0.0.1:8000"
+  },
+  "scope": null,
+  "selection": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenIds": [
+        "beranda",
+        "riwayat",
+        "rekomendasi",
+        "chatbot"
+      ],
+      "screenLabels": [
+        "Beranda",
+        "Riwayat",
+        "Rekomendasi",
+        "Chatbot"
+      ],
+      "viewportIds": [
+        "mobile-360",
+        "mobile-390",
+        "tablet-768",
+        "desktop-1366",
+        "desktop-1440"
+      ]
+    }
+  ],
+  "artifacts": {
+    "notes": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/notes.id.md",
+    "report": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/report.id.md",
+    "manifest": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/manifest.json",
+    "review": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/review/index.html",
+    "current": [
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__mobile-360__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__mobile-360__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__mobile-360__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__mobile-360__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__mobile-390__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__mobile-390__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__mobile-390__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__mobile-390__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__tablet-768__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__tablet-768__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__tablet-768__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__tablet-768__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__desktop-1440__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__desktop-1440__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__desktop-1440__current.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__desktop-1440__current.png"
+    ],
+    "overviews": [
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__mobile-360__snapshot-overview.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__mobile-390__snapshot-overview.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__tablet-768__snapshot-overview.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__desktop-1366__snapshot-overview.png",
+      "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__desktop-1440__snapshot-overview.png"
+    ]
+  },
+  "bundle": {
+    "selfContained": true,
+    "origin": "snapshot-run"
+  },
+  "failures": [],
+  "captures": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__mobile-360__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__mobile-360__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "rekomendasi",
+      "fileId": "rekomendasi",
+      "label": "Rekomendasi",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__mobile-360__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "mobile-360",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__mobile-360__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__mobile-390__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__mobile-390__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "rekomendasi",
+      "fileId": "rekomendasi",
+      "label": "Rekomendasi",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__mobile-390__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__mobile-390__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "tablet-768",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__tablet-768__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "tablet-768",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__tablet-768__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "rekomendasi",
+      "fileId": "rekomendasi",
+      "label": "Rekomendasi",
+      "locale": "default",
+      "viewportId": "tablet-768",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__tablet-768__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "tablet-768",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__tablet-768__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__desktop-1366__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__desktop-1366__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "rekomendasi",
+      "fileId": "rekomendasi",
+      "label": "Rekomendasi",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__desktop-1366__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__desktop-1366__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "desktop-1440",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/beranda__default__desktop-1440__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "desktop-1440",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/riwayat__default__desktop-1440__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "rekomendasi",
+      "fileId": "rekomendasi",
+      "label": "Rekomendasi",
+      "locale": "default",
+      "viewportId": "desktop-1440",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/rekomendasi__default__desktop-1440__current.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "desktop-1440",
+      "current": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/captures/aplikasi-jsiaga/chatbot__default__desktop-1440__current.png"
+    }
+  ],
+  "overviewEntries": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "mobile-360",
+      "path": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__mobile-360__snapshot-overview.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "mobile-390",
+      "path": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__mobile-390__snapshot-overview.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "tablet-768",
+      "path": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__tablet-768__snapshot-overview.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "desktop-1366",
+      "path": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__desktop-1366__snapshot-overview.png"
+    },
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "desktop-1440",
+      "path": "ui-evidence/screenshots/snapshots/20260811-104758--mqtt-direct-local/overview/aplikasi-jsiaga__desktop-1440__snapshot-overview.png"
+    }
+  ],
+  "commands": {
+    "rerun": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --label mqtt-direct-local",
+    "rebuild": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --label mqtt-direct-local"
+  },
+  "counts": {
+    "stages": 1,
+    "screens": 4,
+    "expectedCaptures": 20,
+    "captures": 20,
+    "overviews": 5,
+    "failedCaptures": 0
+  }
+}

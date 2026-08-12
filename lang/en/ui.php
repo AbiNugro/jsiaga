@@ -16,7 +16,7 @@ return [
         'warning' => ['title' => 'Rising-water warning', 'body' => 'Status changed to WARNING. Prepare household members and essential belongings.'],
         'danger' => ['title' => 'Flood danger', 'body' => 'Status changed to DANGER. Follow evacuation actions immediately.'],
         'flood' => ['title' => 'Flood detected', 'body' => 'Status changed to FLOOD. Evacuate immediately and stay away from currents and wet electrical equipment.'],
-        'offline' => ['title' => 'Sensor data is not updating', 'body' => 'The last status is stale. Check the ESP, Node-RED, and network connection.'],
+        'offline' => ['title' => 'Sensor data is not updating', 'body' => 'The last status is stale. Check the ESP, HiveMQ, MQTT bridge, and network connection.'],
         'voice' => [
             'safe' => 'SAFE. Water conditions are safe.',
             'warning' => 'WARNING. The water level is rising. Prepare to take safety action.',
@@ -27,7 +27,7 @@ return [
     ],
     'sensor' => ['temperature' => 'Temperature', 'humidity' => 'Humidity', 'light' => 'Light condition', 'latest' => 'Latest sensors', 'light_conditions' => ['dark' => 'Dark', 'dim' => 'Dim', 'cloudy' => 'Cloudy', 'bright' => 'Bright']],
     'water' => ['level' => 'Water level', 'maximum' => 'Model maximum height', 'explanation' => 'The smaller the sensor distance, the higher the water level.'],
-    'empty' => ['title' => 'No sensor data yet', 'description' => 'Data will appear after Node-RED successfully sends a sensor reading.'],
+    'empty' => ['title' => 'No sensor data yet', 'description' => 'Data will appear after the MQTT bridge receives an ESP reading from HiveMQ.'],
     'range' => ['label' => 'History time range', '1h' => '1 hour', '6h' => '6 hours', '24h' => '24 hours', '7d' => '7 days'],
     'home' => [
         'title' => 'Home', 'eyebrow' => 'Latest monitoring', 'heading' => 'River conditions at a glance',
@@ -59,7 +59,7 @@ return [
             ],
         ],
         'status' => [
-            'offline' => ['title' => 'Check the sensor connection', 'summary' => 'The data is no longer updating. The last flood status must not be treated as the current condition.', 'steps' => ['Check power and connectivity for the ESP and Node-RED.', 'Do not make safety decisions from the old status.', 'Use direct observation and official information until data resumes.']],
+            'offline' => ['title' => 'Check the sensor connection', 'summary' => 'The data is no longer updating. The last flood status must not be treated as the current condition.', 'steps' => ['Check ESP power, HiveMQ connectivity, and the MQTT bridge.', 'Do not make safety decisions from the old status.', 'Use direct observation and official information until data resumes.']],
             'safe' => ['title' => 'Stay prepared while conditions are safe', 'summary' => 'Water remains within the safe range. Use this time to keep drains clear and prepare your household emergency supplies.', 'steps' => ['Check and clear rubbish from drains when outdoor conditions are safe.', 'Keep important documents in a waterproof container that is easy to carry.', 'Save local emergency contacts and agree on a route to higher ground.', 'Check drinking water, regular medicines, a flashlight, and phone power.', 'Monitor water changes and official information regularly.']],
             'warning' => ['title' => 'Prepare your household to move', 'summary' => 'Water is approaching the danger threshold. Alert people nearby, secure essential belongings, and prepare to move to higher ground.', 'steps' => ['Tell household members, neighbours, and local responders that the water is rising.', 'Move documents, medicines, electronics, and valuables to a higher place.', 'Pack documents, medicine, drinking water, a flashlight, clothes, and a charger in an emergency bag.', 'Help children, older people, disabled people, and pets prepare to evacuate.', 'Follow official instructions and leave early if directed.']],
             'danger' => ['title' => 'Evacuate to safety now', 'summary' => 'Water has reached a dangerous level. Leave low-lying areas and follow the evacuation route to higher ground or an official shelter.', 'steps' => ['Warn people nearby and move immediately to higher ground or an official evacuation post.', 'Assist children, older people, and disabled people without putting yourself at risk.', 'Never walk or drive through floodwater or a current.', 'Do not touch cables or electrical equipment in wet areas; isolate power only from a dry place when it is clearly safe.', 'Contact local emergency services and follow official instructions.']],
@@ -67,7 +67,7 @@ return [
         ],
     ],
     'chat' => [
-        'title' => 'Chatbot', 'ready' => 'Online',
+        'title' => 'Chatbot', 'ready' => 'Online', 'offline' => 'Offline',
         'welcome' => 'Hello! I am J-SIAGA Assistant. Ask about flood status, the latest sensor data, or safety actions.',
         'quick_status' => 'Current status', 'quick_data' => 'Sensor data', 'quick_action' => 'What should I do?', 'quick_level' => 'What is the water level?',
         'label' => 'Message J-SIAGA Assistant', 'placeholder' => 'Write a question…', 'send' => 'Send message', 'typing' => 'Typing…', 'send_error' => 'The message could not be sent. Please try again.',
@@ -75,7 +75,7 @@ return [
             'greeting' => 'Hello! I am J-SIAGA Assistant. I can explain the flood status, latest sensor data, WARNING, DANGER, and FLOOD limits, and safety actions.',
             'help' => 'Try asking “Current status”, “Sensor data”, “What is the water level?”, “What should I do?”, or “What is the DANGER limit?”.',
             'thresholds' => 'Water-level percentage guide: SAFE is approximately 0–58%, WARNING 58–87%, DANGER 87–92%, and FLOOD 92–100%. The final status is still determined automatically from the sensor reading.',
-            'no_data' => 'No sensor reading has been stored yet. Make sure Node-RED is sending data to Laravel.',
+            'no_data' => 'No sensor reading has been stored yet. Make sure the ESP is connected to HiveMQ and the MQTT bridge is running.',
             'summary' => "Latest database sensor summary:\n• Status: :status\n• Water level: :level\n• Temperature: :temperature\n• Humidity: :humidity\n• Light condition: :light\n• Updated: :updated",
             'action' => 'For :status status: :recommendation', 'level' => 'The estimated water level is currently :value. A value of 0% means the lowest level and 100% means the model is full.',
             'distance' => 'The estimated water level is currently :value. The raw sensor distance is hidden and displayed as a percentage.', 'temperature' => 'The current ambient temperature is :value.',

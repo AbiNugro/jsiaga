@@ -16,7 +16,7 @@ return [
         'warning' => ['title' => 'Peringatan kenaikan air', 'body' => 'Status berubah menjadi WARNING. Siapkan keluarga dan barang penting.'],
         'danger' => ['title' => 'Bahaya banjir', 'body' => 'Status berubah menjadi DANGER. Segera ikuti tindakan evakuasi.'],
         'flood' => ['title' => 'Banjir terdeteksi', 'body' => 'Status berubah menjadi FLOOD. Segera evakuasi dan jauhi arus serta instalasi listrik basah.'],
-        'offline' => ['title' => 'Sensor tidak memperbarui data', 'body' => 'Status terakhir sudah kedaluwarsa. Periksa ESP, Node-RED, dan koneksi jaringan.'],
+        'offline' => ['title' => 'Sensor tidak memperbarui data', 'body' => 'Status terakhir sudah kedaluwarsa. Periksa ESP, HiveMQ, bridge MQTT, dan koneksi jaringan.'],
         'voice' => [
             'safe' => 'SAFE. Kondisi air aman.',
             'warning' => 'WARNING. Waspada, level air meningkat. Siapkan tindakan keselamatan.',
@@ -27,7 +27,7 @@ return [
     ],
     'sensor' => ['temperature' => 'Suhu', 'humidity' => 'Kelembapan', 'light' => 'Kondisi cahaya', 'latest' => 'Sensor terbaru', 'light_conditions' => ['dark' => 'Gelap', 'dim' => 'Redup', 'cloudy' => 'Mendung', 'bright' => 'Cerah']],
     'water' => ['level' => 'Level air', 'maximum' => 'Tinggi maksimum miniatur', 'explanation' => 'Semakin kecil jarak sensor, semakin tinggi level air.'],
-    'empty' => ['title' => 'Belum ada data sensor', 'description' => 'Data akan muncul setelah Node-RED berhasil mengirim pembacaan sensor.'],
+    'empty' => ['title' => 'Belum ada data sensor', 'description' => 'Data akan muncul setelah bridge MQTT menerima pembacaan ESP dari HiveMQ.'],
     'range' => ['label' => 'Rentang waktu riwayat', '1h' => '1 jam', '6h' => '6 jam', '24h' => '24 jam', '7d' => '7 hari'],
     'home' => [
         'title' => 'Beranda', 'eyebrow' => 'Pantauan terkini', 'heading' => 'Kondisi sungai dalam satu pandangan',
@@ -59,7 +59,7 @@ return [
             ],
         ],
         'status' => [
-            'offline' => ['title' => 'Periksa koneksi sensor', 'summary' => 'Data sudah tidak diperbarui. Status banjir terakhir tidak boleh dianggap sebagai kondisi saat ini.', 'steps' => ['Periksa daya dan koneksi ESP serta Node-RED.', 'Jangan mengambil keputusan keselamatan dari status lama.', 'Gunakan pengamatan langsung dan informasi resmi sampai data kembali masuk.']],
+            'offline' => ['title' => 'Periksa koneksi sensor', 'summary' => 'Data sudah tidak diperbarui. Status banjir terakhir tidak boleh dianggap sebagai kondisi saat ini.', 'steps' => ['Periksa daya ESP serta koneksi HiveMQ dan bridge MQTT.', 'Jangan mengambil keputusan keselamatan dari status lama.', 'Gunakan pengamatan langsung dan informasi resmi sampai data kembali masuk.']],
             'safe' => ['title' => 'Tetap siap meski kondisi aman', 'summary' => 'Air masih dalam batas aman. Gunakan waktu ini untuk menjaga saluran air dan menyiapkan kebutuhan darurat keluarga.', 'steps' => ['Periksa dan bersihkan selokan dari sampah jika kondisi di luar aman.', 'Simpan dokumen penting dalam wadah tahan air yang mudah dibawa.', 'Siapkan nomor BPBD atau petugas setempat serta tentukan rute menuju tempat tinggi.', 'Cek persediaan air minum, obat rutin, senter, dan daya ponsel.', 'Pantau perubahan air dan informasi resmi secara berkala.']],
             'warning' => ['title' => 'Siapkan keluarga untuk berpindah', 'summary' => 'Air mendekati batas bahaya. Beri tahu orang sekitar, amankan barang penting, dan bersiap menuju tempat yang lebih tinggi.', 'steps' => ['Beri tahu keluarga, tetangga, dan petugas setempat bahwa level air meningkat.', 'Pindahkan dokumen, obat, perangkat elektronik, dan barang berharga ke tempat tinggi.', 'Siapkan tas darurat berisi dokumen, obat, air minum, senter, pakaian, dan pengisi daya.', 'Dampingi anak-anak, lansia, penyandang disabilitas, dan hewan peliharaan agar siap dievakuasi.', 'Pantau arahan BPBD atau petugas dan berangkat lebih awal bila diminta.']],
             'danger' => ['title' => 'Evakuasi ke tempat aman sekarang', 'summary' => 'Air berada pada tingkat berbahaya. Tinggalkan area rendah dan ikuti jalur evakuasi menuju tempat tinggi atau pos resmi.', 'steps' => ['Bunyikan peringatan dan segera ajak orang di sekitar menuju tempat tinggi atau pos evakuasi resmi.', 'Bantu anak-anak, lansia, dan penyandang disabilitas tanpa membahayakan diri sendiri.', 'Jangan berjalan atau berkendara menerobos genangan maupun arus air.', 'Jangan menyentuh kabel atau peralatan listrik di area basah; putuskan listrik hanya dari tempat kering jika benar-benar aman.', 'Hubungi BPBD atau layanan darurat setempat dan ikuti instruksi petugas.']],
@@ -67,7 +67,7 @@ return [
         ],
     ],
     'chat' => [
-        'title' => 'Chatbot', 'ready' => 'Online',
+        'title' => 'Chatbot', 'ready' => 'Online', 'offline' => 'Offline',
         'welcome' => 'Halo! Saya J-SIAGA Assistant. Tanyakan status banjir, data sensor terbaru, atau tindakan keselamatan.',
         'quick_status' => 'Status sekarang', 'quick_data' => 'Data sensor', 'quick_action' => 'Apa yang harus dilakukan?', 'quick_level' => 'Berapa level air?',
         'label' => 'Pesan untuk J-SIAGA Assistant', 'placeholder' => 'Tulis pertanyaan…', 'send' => 'Kirim pesan', 'typing' => 'Sedang mengetik…', 'send_error' => 'Pesan belum dapat dikirim. Coba lagi.',
@@ -75,7 +75,7 @@ return [
             'greeting' => 'Halo! Saya J-SIAGA Assistant. Saya dapat membantu menjelaskan status banjir, data sensor terbaru, batas WARNING, DANGER, dan FLOOD, serta tindakan keselamatan.',
             'help' => 'Coba tanyakan “Status sekarang”, “Data sensor”, “Berapa level air?”, “Apa yang harus dilakukan?”, atau “Apa batas DANGER?”.',
             'thresholds' => 'Panduan persentase level air: SAFE sekitar 0–58%, WARNING sekitar 58–87%, DANGER sekitar 87–92%, dan FLOOD sekitar 92–100%. Status akhir tetap ditentukan otomatis dari pembacaan sensor.',
-            'no_data' => 'Belum ada pembacaan sensor yang tersimpan. Pastikan Node-RED sudah mengirim data ke Laravel.',
+            'no_data' => 'Belum ada pembacaan sensor yang tersimpan. Pastikan ESP terhubung ke HiveMQ dan bridge MQTT sedang berjalan.',
             'summary' => "Ringkasan sensor terkini dari database:\n• Status: :status\n• Level air: :level\n• Suhu: :temperature\n• Kelembapan: :humidity\n• Kondisi cahaya: :light\n• Diperbarui: :updated",
             'action' => 'Untuk status :status: :recommendation', 'level' => 'Estimasi level air saat ini :value. Nilai 0% berarti level terendah dan 100% berarti miniatur penuh.',
             'distance' => 'Estimasi level air saat ini :value. Jarak mentah sensor disembunyikan dan ditampilkan sebagai persentase.', 'temperature' => 'Suhu lingkungan saat ini :value.',

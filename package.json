@@ -4,7 +4,9 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "mqtt:bridge": "node --env-file=.env scripts/mqtt-bridge.mjs",
+        "local:mqtt": "concurrently -k -n laravel,vite,mqtt -c \"#93c5fd,#c4b5fd,#86efac\" \"php artisan serve --host=0.0.0.0 --port=8000\" \"npm run dev\" \"npm run mqtt:bridge\""
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
@@ -17,6 +19,7 @@
     "dependencies": {
         "chart.js": "^4.5.1",
         "clsx": "^2.1.1",
+        "mqtt": "^5.15.2",
         "tailwind-merge": "^3.6.0"
     }
 }

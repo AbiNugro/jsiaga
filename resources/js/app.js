@@ -152,8 +152,16 @@ async function fetchJson(url, options = {}) {
 const alertButtons = [...document.querySelectorAll('[data-enable-alerts]')];
 const safetyAlert = document.querySelector('[data-safety-alert]');
 const alertFeedback = document.querySelector('[data-alert-feedback]');
+const chatConnectionStatus = document.querySelector('[data-chat-connection-status]');
 let lastAlertState = ui.initialStatus || 'OFFLINE';
 let alertFeedbackTimer = null;
+
+const updateChatConnectionStatus = (status) => {
+    if (!chatConnectionStatus) return;
+    chatConnectionStatus.textContent = status === 'OFFLINE'
+        ? (ui.chat?.offline || 'Offline')
+        : (ui.chat?.online || 'Online');
+};
 
     const alertsEnabled = () => {
         try { return window.localStorage.getItem('jsiaga-alerts-enabled') === '1'; } catch { return false; }
@@ -226,6 +234,7 @@ let alertFeedbackTimer = null;
     };
 
     const handleStatus = (status, force = false) => {
+        updateChatConnectionStatus(status);
         renderSafetyAlert(status);
         if (!force && status === lastAlertState) return;
         const previous = lastAlertState;

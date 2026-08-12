@@ -29,6 +29,15 @@
     --shadow-surface-hover: 0 0 0 1px rgba(16, 42, 67, .08), 0 2px 4px -2px rgba(16, 42, 67, .08), 0 12px 30px -14px rgba(16, 42, 67, .18);
 }
 
+@view-transition {
+    navigation: auto;
+}
+
+.app-logo-mobile { view-transition-name: app-logo-mobile; }
+.app-logo-desktop { view-transition-name: app-logo-desktop; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: 140ms; }
+
 html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -372,8 +381,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .chart-container-large { height: 20rem; }
 .table-cell { padding: .9rem 1rem; white-space: nowrap; }
 
-.chat-shell { display: grid; height: calc(100dvh - 12.5rem); min-height: 31rem; grid-template-rows: auto minmax(0,1fr) auto; }
-.chat-messages { display: flex; min-height: 0; flex-direction: column; gap: .75rem; overflow-y: auto; padding: 1.25rem .25rem; overscroll-behavior: contain; }
+.chat-shell { display: grid; height: calc(100dvh - 12.5rem); min-height: 31rem; grid-template-rows: auto minmax(0,1fr) auto; padding-bottom: .75rem; }
+.chat-messages { display: flex; min-height: 0; flex-direction: column; gap: .75rem; overflow-y: auto; padding: 1rem .25rem; overscroll-behavior: contain; }
 .chat-bubble { max-width: min(86%, 38rem); white-space: pre-wrap; border-radius: 1.25rem; padding: .75rem 1rem; font-size: .875rem; line-height: 1.55; box-shadow: 0 0 0 1px rgba(16,42,67,.05); }
 .chat-bubble-assistant { border-bottom-left-radius: .4rem; background: white; color: var(--color-ink); }
 .chat-bubble-user { border-bottom-right-radius: .4rem; background: var(--color-teal); color: white; }
@@ -398,7 +407,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 
 @media (min-width: 1024px) {
     .bottom-nav-wrap { display: none; }
-    .chat-shell { height: calc(100dvh - 4rem); max-height: 52rem; }
+    .chat-shell { height: calc(100dvh - 4rem); max-height: 52rem; padding-bottom: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

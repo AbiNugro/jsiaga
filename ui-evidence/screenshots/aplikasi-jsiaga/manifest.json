@@ -1,0 +1,307 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-11T10:54:18.668Z",
+  "stage": {
+    "id": "aplikasi-jsiaga",
+    "title": "Aplikasi J-SIAGA",
+    "description": "Audit visual dashboard monitoring banjir pada seluruh viewport wajib."
+  },
+  "snapshot": null,
+  "bundle": {
+    "selfContained": true,
+    "origin": "local-stage"
+  },
+  "artifacts": {
+    "notes": "ui-evidence/screenshots/aplikasi-jsiaga/notes.id.md",
+    "report": "ui-evidence/screenshots/aplikasi-jsiaga/report.id.md",
+    "review": "ui-evidence/screenshots/aplikasi-jsiaga/review/index.html",
+    "captureState": "ui-evidence/state/capture/aplikasi-jsiaga.json",
+    "before": [],
+    "after": [],
+    "pairs": [],
+    "current": [
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/beranda__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/beranda__default__mobile-390__current.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/chatbot__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/chatbot__default__mobile-390__current.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/rekomendasi__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/rekomendasi__default__mobile-390__current.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/riwayat__default__desktop-1366__current.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/current/riwayat__default__mobile-390__current.png"
+    ],
+    "overviews": [
+      "ui-evidence/screenshots/aplikasi-jsiaga/comparison/overview/aplikasi-jsiaga__desktop-1366__snapshot-overview.png",
+      "ui-evidence/screenshots/aplikasi-jsiaga/comparison/overview/aplikasi-jsiaga__mobile-390__snapshot-overview.png"
+    ]
+  },
+  "captures": [
+    {
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/beranda__default__mobile-390__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    },
+    {
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/riwayat__default__mobile-390__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    },
+    {
+      "screenId": "rekomendasi",
+      "fileId": "rekomendasi",
+      "label": "Rekomendasi",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/rekomendasi__default__mobile-390__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    },
+    {
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/chatbot__default__mobile-390__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    },
+    {
+      "screenId": "beranda",
+      "fileId": "beranda",
+      "label": "Beranda",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/beranda__default__desktop-1366__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    },
+    {
+      "screenId": "riwayat",
+      "fileId": "riwayat",
+      "label": "Riwayat",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/riwayat__default__desktop-1366__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    },
+    {
+      "screenId": "rekomendasi",
+      "fileId": "rekomendasi",
+      "label": "Rekomendasi",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/rekomendasi__default__desktop-1366__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    },
+    {
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "desktop-1366",
+      "before": null,
+      "after": null,
+      "pair": null,
+      "current": "ui-evidence/screenshots/aplikasi-jsiaga/current/chatbot__default__desktop-1366__current.png",
+      "status": "current-only",
+      "execution": {
+        "before": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        },
+        "after": {
+          "status": "missing",
+          "startedAt": null,
+          "finishedAt": null,
+          "totalMs": null,
+          "timings": {},
+          "failure": null,
+          "outputPath": null
+        }
+      }
+    }
+  ],
+  "counts": {
+    "before": 0,
+    "after": 0,
+    "pairs": 0,
+    "currentCaptures": 8,
+    "overviews": 2,
+    "expectedCaptures": 8,
+    "completeCaptures": 0,
+    "reviewableCaptures": 8,
+    "failedCaptures": 0,
+    "pendingCaptures": 0
+  }
+}

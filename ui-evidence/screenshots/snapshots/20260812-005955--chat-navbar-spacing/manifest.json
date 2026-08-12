@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "kind": "snapshot-run",
+  "generatedAt": "2026-08-12T00:59:55.609Z",
+  "run": {
+    "id": "20260812-005955--chat-navbar-spacing",
+    "label": "chat-navbar-spacing",
+    "title": "Current UI Snapshot · chat-navbar-spacing",
+    "description": "Current UI snapshot for 1 stage(s) and 1 selected screen(s).",
+    "selectionMode": "direct",
+    "baseUrl": "http://127.0.0.1:8000"
+  },
+  "scope": null,
+  "selection": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenIds": [
+        "chatbot"
+      ],
+      "screenLabels": [
+        "Chatbot"
+      ],
+      "viewportIds": [
+        "mobile-390"
+      ]
+    }
+  ],
+  "artifacts": {
+    "notes": "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/notes.id.md",
+    "report": "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/report.id.md",
+    "manifest": "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/manifest.json",
+    "review": "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/review/index.html",
+    "current": [
+      "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/captures/aplikasi-jsiaga/chatbot__default__mobile-390__current.png"
+    ],
+    "overviews": [
+      "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/overview/aplikasi-jsiaga__mobile-390__snapshot-overview.png"
+    ]
+  },
+  "bundle": {
+    "selfContained": true,
+    "origin": "snapshot-run"
+  },
+  "failures": [],
+  "captures": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "screenId": "chatbot",
+      "fileId": "chatbot",
+      "label": "Chatbot",
+      "locale": "default",
+      "viewportId": "mobile-390",
+      "current": "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/captures/aplikasi-jsiaga/chatbot__default__mobile-390__current.png"
+    }
+  ],
+  "overviewEntries": [
+    {
+      "stageId": "aplikasi-jsiaga",
+      "stageTitle": "Aplikasi J-SIAGA",
+      "viewportId": "mobile-390",
+      "path": "ui-evidence/screenshots/snapshots/20260812-005955--chat-navbar-spacing/overview/aplikasi-jsiaga__mobile-390__snapshot-overview.png"
+    }
+  ],
+  "commands": {
+    "rerun": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --screens chatbot --viewports mobile-390 --label chat-navbar-spacing",
+    "rebuild": "ui-evidence snapshot --config ui-evidence/config.yaml --stage aplikasi-jsiaga --screens chatbot --viewports mobile-390 --label chat-navbar-spacing"
+  },
+  "counts": {
+    "stages": 1,
+    "screens": 1,
+    "expectedCaptures": 1,
+    "captures": 1,
+    "overviews": 1,
+    "failedCaptures": 0
+  }
+}
