@@ -222,8 +222,7 @@ final class TelegramAlertService
             '',
             $copy['status'].': '.$status,
             $copy['change'].': '.($previousStatus ?? $copy['no_data']).' -> '.$status,
-            $copy['water_level'].': '.round((float) $reading->water_level).'%',
-            $copy['distance'].': '.number_format((float) $reading->distance, 2, ',', '.').' cm',
+            $copy['sensor_level'].': '.round((float) $reading->water_level).'%',
         ];
 
         if ($reading->temperature !== null) {
@@ -247,15 +246,15 @@ final class TelegramAlertService
         return match ($locale) {
             'en' => [
                 'headlines' => ['SAFE' => '[ONLINE] SENSOR IS ACTIVE AGAIN', 'WARNING' => '[WARNING] WATER LEVEL WARNING', 'DANGER' => '[DANGER] DANGEROUS WATER LEVEL', 'FLOOD' => '[FLOOD] FLOOD DETECTED', 'OFFLINE' => '[OFFLINE] SENSOR DATA HAS STOPPED'],
-                'status' => 'Status', 'change' => 'Change', 'no_data' => 'NO PREVIOUS DATA', 'water_level' => 'Water level', 'distance' => 'Sensor distance', 'temperature' => 'Temperature', 'humidity' => 'Humidity', 'light' => 'Light', 'time' => 'Time',
+                'status' => 'Status', 'change' => 'Change', 'no_data' => 'NO PREVIOUS DATA', 'sensor_level' => 'Sensor level', 'temperature' => 'Temperature', 'humidity' => 'Humidity', 'light' => 'Light', 'time' => 'Time',
             ],
             'ko' => [
                 'headlines' => ['SAFE' => '[온라인] 센서가 다시 작동합니다', 'WARNING' => '[주의] 수위 주의', 'DANGER' => '[위험] 위험 수위', 'FLOOD' => '[홍수] 홍수가 감지되었습니다', 'OFFLINE' => '[오프라인] 센서 데이터가 중지되었습니다'],
-                'status' => '상태', 'change' => '변경', 'no_data' => '이전 데이터 없음', 'water_level' => '수위', 'distance' => '센서 거리', 'temperature' => '온도', 'humidity' => '습도', 'light' => '조도', 'time' => '시간',
+                'status' => '상태', 'change' => '변경', 'no_data' => '이전 데이터 없음', 'sensor_level' => '센서 수위', 'temperature' => '온도', 'humidity' => '습도', 'light' => '조도', 'time' => '시간',
             ],
             default => [
                 'headlines' => ['SAFE' => '[ONLINE] SENSOR KEMBALI AKTIF', 'WARNING' => '[WASPADA] STATUS WARNING', 'DANGER' => '[BAHAYA] STATUS DANGER', 'FLOOD' => '[BANJIR] BANJIR TERDETEKSI', 'OFFLINE' => '[OFFLINE] DATA SENSOR TERHENTI'],
-                'status' => 'Status', 'change' => 'Perubahan', 'no_data' => 'BELUM ADA DATA', 'water_level' => 'Level air', 'distance' => 'Jarak sensor', 'temperature' => 'Suhu', 'humidity' => 'Kelembapan', 'light' => 'Cahaya', 'time' => 'Waktu',
+                'status' => 'Status', 'change' => 'Perubahan', 'no_data' => 'BELUM ADA DATA', 'sensor_level' => 'Level sensor', 'temperature' => 'Suhu', 'humidity' => 'Kelembapan', 'light' => 'Cahaya', 'time' => 'Waktu',
             ],
         };
     }

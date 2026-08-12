@@ -134,11 +134,11 @@ class TelegramAlertTest extends TestCase
         $this->sendReading(6.6)->assertCreated();
 
         Http::assertSent(fn (Request $request): bool => $request['chat_id'] === 'id-user'
-            && str_contains($request['text'], 'Jarak sensor'));
+            && str_contains($request['text'], 'Level sensor:'));
         Http::assertSent(fn (Request $request): bool => $request['chat_id'] === 'en-user'
-            && str_contains($request['text'], 'Sensor distance'));
+            && str_contains($request['text'], 'Sensor level:'));
         Http::assertSent(fn (Request $request): bool => $request['chat_id'] === 'ko-user'
-            && str_contains($request['text'], '센서 거리'));
+            && str_contains($request['text'], '센서 수위:'));
     }
 
     public function test_status_bahaya_pertama_tetap_mengirim_notifikasi(): void
