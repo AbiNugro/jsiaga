@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Database\Factories\SensorReadingFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SensorReading extends Model
 {
-    /** @use HasFactory<\Database\Factories\SensorReadingFactory> */
+    /** @use HasFactory<SensorReadingFactory> */
     use HasFactory;
 
     protected $fillable = [
@@ -29,6 +30,7 @@ class SensorReading extends Model
             'humidity' => 'float',
             'light' => 'integer',
             'recorded_at' => 'datetime',
+            'offline_notified_at' => 'datetime',
         ];
     }
 

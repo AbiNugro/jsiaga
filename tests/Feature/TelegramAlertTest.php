@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\SensorReading;
 use App\Models\TelegramSubscriber;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
@@ -173,6 +174,51 @@ class TelegramAlertTest extends TestCase
         $this->artisan('jsiaga:test-telegram')->assertSuccessful();
 
         Http::assertSentCount(2);
+    }
+
+    public function test_monitor_mengirim_offline_satu_kali_saat_data_sensor_berhenti(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => '101', 'is_active' => true, 'locale' => 'id']);
+        SensorReading::factory()->create([
+            'status' => 'SAFE',
+            'recorded_at' => now()->subSeconds(20),
+        ]);
+
+        $this->artisan('jsiaga:monitor-sensor')->assertSuccessful();
+        $this->artisan('jsiaga:monitor-sensor')->assertSuccessful();
+
+        Http::assertSentCount(1);
+        Http::assertSent(fn (Request $request): bool => str_contains($request['text'], '[OFFLINE] DATA SENSOR TERHENTI'));
+        $this->assertNotNull(SensorReading::query()->latest('recorded_at')->first()->offline_notified_at);
+    }
+
+    public function test_monitor_tidak_mengirim_offline_selama_data_masih_segar(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => '101', 'is_active' => true]);
+        SensorReading::factory()->create(['recorded_at' => now()]);
+
+        $this->artisan('jsiaga:monitor-sensor')->assertSuccessful();
+
+        Http::assertNothingSent();
+    }
+
+    public function test_data_baru_setelah_offline_mengirim_notifikasi_online(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => '101', 'is_active' => true, 'locale' => 'en']);
+        SensorReading::factory()->create([
+            'status' => 'SAFE',
+            'recorded_at' => now()->subSeconds(20),
+            'offline_notified_at' => now(),
+        ]);
+
+        $this->sendReading(9)->assertOk()->assertJsonPath('data.status', 'SAFE');
+
+        Http::assertSentCount(1);
+        Http::assertSent(fn (Request $request): bool => str_contains($request['text'], '[ONLINE] SENSOR IS ACTIVE AGAIN')
+            && str_contains($request['text'], 'OFFLINE -> SAFE'));
     }
 
     public function test_perintah_cli_mendaftarkan_webhook(): void

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SensorReading;
 use App\Models\TelegramSubscriber;
 use App\Services\SensorRetentionService;
 use App\Services\TelegramAlertService;
@@ -101,6 +102,25 @@ Artisan::command('jsiaga:telegram-subscribers', function () {
     $this->components->info("Pelanggan Telegram aktif: {$active} dari {$total} terdaftar.");
 })->purpose('Menampilkan jumlah pelanggan Telegram J-SIAGA');
 
+Artisan::command('jsiaga:monitor-sensor', function (TelegramAlertService $telegram) {
+    $latest = SensorReading::query()->latest('recorded_at')->first();
+
+    if (! $latest || ! $latest->isStale() || $latest->offline_notified_at) {
+        return 0;
+    }
+
+    if ($telegram->sendOffline($latest)) {
+        $latest->forceFill(['offline_notified_at' => now()])->save();
+        $this->components->info('Notifikasi OFFLINE sensor berhasil dikirim.');
+    }
+
+    return 0;
+})->purpose('Memantau sensor dan mengirim satu notifikasi ketika data berhenti');
+
 Schedule::command('jsiaga:prune-sensor-readings')
     ->dailyAt('02:00')
+    ->withoutOverlapping();
+
+Schedule::command('jsiaga:monitor-sensor')
+    ->everyTenSeconds()
     ->withoutOverlapping();

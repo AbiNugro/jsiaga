@@ -35,11 +35,13 @@ class SensorReadingController extends Controller
         ];
         $interval = max(1, (int) config('services.jsiaga.history_interval_seconds', 10));
         $latest = SensorReading::query()->latest('recorded_at')->first();
-        $previousStatus = $latest?->status;
+        $previousStatus = $latest?->offline_notified_at ? 'OFFLINE' : $latest?->status;
         $compacted = $latest?->created_at?->gte(now()->subSeconds($interval)) ?? false;
 
         if ($compacted) {
-            $latest->fill($values)->save();
+            $latest->fill($values);
+            $latest->offline_notified_at = null;
+            $latest->save();
             $reading = $latest->fresh();
         } else {
             $reading = SensorReading::query()->create($values);

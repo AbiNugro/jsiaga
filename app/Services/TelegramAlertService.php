@@ -74,7 +74,18 @@ final class TelegramAlertService
         }
 
         return $this->broadcastLocalized(
-            fn (string $locale): string => $this->statusMessage($previousStatus, $reading, $locale)
+            fn (string $locale): string => $this->statusMessage($previousStatus, $status, $reading, $locale)
+        ) > 0;
+    }
+
+    public function sendOffline(SensorReading $reading): bool
+    {
+        if (! $this->isEnabled()) {
+            return false;
+        }
+
+        return $this->broadcastLocalized(
+            fn (string $locale): string => $this->statusMessage((string) $reading->status, 'OFFLINE', $reading, $locale)
         ) > 0;
     }
 
@@ -201,10 +212,9 @@ final class TelegramAlertService
         ]);
     }
 
-    private function statusMessage(?string $previousStatus, SensorReading $reading, string $locale): string
+    private function statusMessage(?string $previousStatus, string $status, SensorReading $reading, string $locale): string
     {
         $locale = $this->normalizeLocale($locale);
-        $status = (string) $reading->status;
         $copy = $this->statusCopy($locale);
 
         $lines = [
@@ -236,15 +246,15 @@ final class TelegramAlertService
     {
         return match ($locale) {
             'en' => [
-                'headlines' => ['SAFE' => '[SAFE] CONDITIONS ARE SAFE AGAIN', 'WARNING' => '[WARNING] WATER LEVEL WARNING', 'DANGER' => '[DANGER] DANGEROUS WATER LEVEL', 'FLOOD' => '[FLOOD] FLOOD DETECTED'],
+                'headlines' => ['SAFE' => '[ONLINE] SENSOR IS ACTIVE AGAIN', 'WARNING' => '[WARNING] WATER LEVEL WARNING', 'DANGER' => '[DANGER] DANGEROUS WATER LEVEL', 'FLOOD' => '[FLOOD] FLOOD DETECTED', 'OFFLINE' => '[OFFLINE] SENSOR DATA HAS STOPPED'],
                 'status' => 'Status', 'change' => 'Change', 'no_data' => 'NO PREVIOUS DATA', 'water_level' => 'Water level', 'distance' => 'Sensor distance', 'temperature' => 'Temperature', 'humidity' => 'Humidity', 'light' => 'Light', 'time' => 'Time',
             ],
             'ko' => [
-                'headlines' => ['SAFE' => '[안전] 다시 안전한 상태입니다', 'WARNING' => '[주의] 수위 주의', 'DANGER' => '[위험] 위험 수위', 'FLOOD' => '[홍수] 홍수가 감지되었습니다'],
+                'headlines' => ['SAFE' => '[온라인] 센서가 다시 작동합니다', 'WARNING' => '[주의] 수위 주의', 'DANGER' => '[위험] 위험 수위', 'FLOOD' => '[홍수] 홍수가 감지되었습니다', 'OFFLINE' => '[오프라인] 센서 데이터가 중지되었습니다'],
                 'status' => '상태', 'change' => '변경', 'no_data' => '이전 데이터 없음', 'water_level' => '수위', 'distance' => '센서 거리', 'temperature' => '온도', 'humidity' => '습도', 'light' => '조도', 'time' => '시간',
             ],
             default => [
-                'headlines' => ['SAFE' => '[AMAN] KONDISI KEMBALI AMAN', 'WARNING' => '[WASPADA] STATUS WARNING', 'DANGER' => '[BAHAYA] STATUS DANGER', 'FLOOD' => '[BANJIR] BANJIR TERDETEKSI'],
+                'headlines' => ['SAFE' => '[ONLINE] SENSOR KEMBALI AKTIF', 'WARNING' => '[WASPADA] STATUS WARNING', 'DANGER' => '[BAHAYA] STATUS DANGER', 'FLOOD' => '[BANJIR] BANJIR TERDETEKSI', 'OFFLINE' => '[OFFLINE] DATA SENSOR TERHENTI'],
                 'status' => 'Status', 'change' => 'Perubahan', 'no_data' => 'BELUM ADA DATA', 'water_level' => 'Level air', 'distance' => 'Jarak sensor', 'temperature' => 'Suhu', 'humidity' => 'Kelembapan', 'light' => 'Cahaya', 'time' => 'Waktu',
             ],
         };

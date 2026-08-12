@@ -7,6 +7,7 @@ Dokumen ini berisi panduan menjalankan, menghentikan, melakukan maintenance, mem
 - Direktori aplikasi: `/var/www/jsiaga`
 - Website produksi: `https://jsiaga.me`
 - Nama proses Supervisor: `jsiaga-mqtt`
+- Nama proses scheduler Supervisor: `jsiaga-scheduler`
 - Konfigurasi Supervisor: `/etc/supervisor/conf.d/jsiaga-mqtt.conf`
 - Log MQTT: `/var/log/jsiaga-mqtt.log`
 - Log error MQTT: `/var/log/jsiaga-mqtt-error.log`
@@ -194,6 +195,8 @@ J-SIAGA dapat mengirim notifikasi Telegram kepada seluruh pengguna yang berlangg
 
 Kegagalan Telegram tidak menghentikan penyimpanan data sensor. Detail kegagalan dicatat di log Laravel tanpa mencatat token bot.
 
+Ketika data sensor berhenti melewati batas `JSIAGA_OFFLINE_SECONDS`, sistem mengirim satu notifikasi `OFFLINE` lalu tidak mengulangnya. Ketika data kembali masuk, sistem mengirim notifikasi pemulihan dan melanjutkan peringatan status. Fitur ini membutuhkan Laravel scheduler yang aktif.
+
 ### Membuat bot Telegram
 
 1. Buka akun resmi `@BotFather` di Telegram.
@@ -344,6 +347,62 @@ tail -n 100 /var/www/jsiaga/storage/logs/laravel.log
 ```
 
 Penyebab yang umum adalah token salah, webhook secret tidak cocok, belum ada pengguna yang mengirim `/start`, bot diblokir pengguna, atau koneksi keluar HTTPS dari VPS bermasalah.
+
+### Menjalankan pemantauan OFFLINE otomatis
+
+Buat konfigurasi Supervisor:
+
+```bash
+sudo nano /etc/supervisor/conf.d/jsiaga-scheduler.conf
+```
+
+Isi:
+
+```ini
+[program:jsiaga-scheduler]
+directory=/var/www/jsiaga
+command=/usr/bin/php /var/www/jsiaga/artisan schedule:work
+user=justdeano
+autostart=true
+autorestart=true
+startsecs=5
+stopasgroup=true
+killasgroup=true
+stdout_logfile=/var/log/jsiaga-scheduler.log
+stderr_logfile=/var/log/jsiaga-scheduler-error.log
+environment=APP_ENV="production"
+```
+
+Aktifkan prosesnya:
+
+```bash
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl start jsiaga-scheduler
+sudo supervisorctl status
+```
+
+Status normal:
+
+```text
+jsiaga-mqtt        RUNNING
+jsiaga-scheduler   RUNNING
+```
+
+Uji pemantauan secara manual:
+
+```bash
+php artisan jsiaga:monitor-sensor
+```
+
+Perintah manual hanya mengirim apabila data terbaru memang sudah kedaluwarsa dan notifikasi OFFLINE belum pernah dikirim untuk kejadian tersebut.
+
+Log scheduler:
+
+```bash
+sudo tail -f /var/log/jsiaga-scheduler.log
+sudo tail -f /var/log/jsiaga-scheduler-error.log
+```
 
 ## Prosedur deployment
 
