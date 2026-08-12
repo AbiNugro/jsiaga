@@ -44,6 +44,7 @@ class TelegramAlertTest extends TestCase
         ]);
         Http::assertSent(fn (Request $request): bool => $request['chat_id'] === '101'
             && str_contains($request['text'], 'Notifikasi J-SIAGA sudah aktif'));
+        Http::assertSentCount(1);
     }
 
     public function test_webhook_menolak_request_dengan_secret_salah(): void

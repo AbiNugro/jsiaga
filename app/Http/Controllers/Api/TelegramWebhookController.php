@@ -66,7 +66,6 @@ class TelegramWebhookController extends Controller
             );
 
             $telegram->sendToChat($chatId, $telegram->text('started', $subscriber->locale));
-            $telegram->sendLanguageMenu($chatId, $subscriber->locale);
 
             return;
         }
