@@ -14,6 +14,7 @@ class TelegramSubscriber extends Model
         'first_name',
         'last_name',
         'language_code',
+        'locale',
         'is_active',
         'subscribed_at',
         'unsubscribed_at',

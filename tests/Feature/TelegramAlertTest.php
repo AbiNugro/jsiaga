@@ -62,6 +62,46 @@ class TelegramAlertTest extends TestCase
         $this->assertDatabaseHas('telegram_subscribers', ['chat_id' => '101', 'is_active' => false]);
     }
 
+    public function test_pengguna_dapat_mengganti_bahasa_dengan_tombol(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => '101', 'is_active' => true, 'locale' => 'id']);
+
+        $this->withHeader('X-Telegram-Bot-Api-Secret-Token', 'webhook-test-secret')
+            ->postJson('/api/telegram/webhook', [
+                'update_id' => 2,
+                'callback_query' => [
+                    'id' => 'callback-1',
+                    'data' => 'language:en',
+                    'message' => ['chat' => ['id' => '101']],
+                ],
+            ])
+            ->assertOk();
+
+        $this->assertDatabaseHas('telegram_subscribers', ['chat_id' => '101', 'locale' => 'en']);
+        Http::assertSent(fn (Request $request): bool => str_ends_with($request->url(), '/answerCallbackQuery')
+            && $request['callback_query_id'] === 'callback-1');
+        Http::assertSent(fn (Request $request): bool => ($request['chat_id'] ?? null) === '101'
+            && str_contains($request['text'], 'changed to English'));
+    }
+
+    public function test_perintah_bahasa_menampilkan_tiga_tombol(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => '101', 'is_active' => true, 'locale' => 'id']);
+
+        $this->postWebhook('/bahasa', '101')->assertOk();
+
+        Http::assertSent(function (Request $request): bool {
+            $buttons = $request['reply_markup']['inline_keyboard'][0] ?? [];
+
+            return count($buttons) === 3
+                && $buttons[0]['callback_data'] === 'language:id'
+                && $buttons[1]['callback_data'] === 'language:en'
+                && $buttons[2]['callback_data'] === 'language:ko';
+        });
+    }
+
     public function test_notifikasi_status_dikirim_ke_semua_pelanggan_aktif(): void
     {
         Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
@@ -81,6 +121,23 @@ class TelegramAlertTest extends TestCase
         Http::assertSent(fn (Request $request): bool => $request['chat_id'] === '202'
             && str_contains($request['text'], 'SAFE -> WARNING'));
         Http::assertNotSent(fn (Request $request): bool => $request['chat_id'] === '303');
+    }
+
+    public function test_notifikasi_mengikuti_bahasa_masing_masing_pelanggan(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => 'id-user', 'is_active' => true, 'locale' => 'id']);
+        TelegramSubscriber::query()->create(['chat_id' => 'en-user', 'is_active' => true, 'locale' => 'en']);
+        TelegramSubscriber::query()->create(['chat_id' => 'ko-user', 'is_active' => true, 'locale' => 'ko']);
+
+        $this->sendReading(6.6)->assertCreated();
+
+        Http::assertSent(fn (Request $request): bool => $request['chat_id'] === 'id-user'
+            && str_contains($request['text'], 'Jarak sensor'));
+        Http::assertSent(fn (Request $request): bool => $request['chat_id'] === 'en-user'
+            && str_contains($request['text'], 'Sensor distance'));
+        Http::assertSent(fn (Request $request): bool => $request['chat_id'] === 'ko-user'
+            && str_contains($request['text'], '센서 거리'));
     }
 
     public function test_status_bahaya_pertama_tetap_mengirim_notifikasi(): void
@@ -128,6 +185,13 @@ class TelegramAlertTest extends TestCase
             return $request->url() === 'https://api.telegram.org/bottelegram-test-token/setWebhook'
                 && $request['url'] === 'https://jsiaga.me/api/telegram/webhook'
                 && $request['secret_token'] === 'webhook-test-secret';
+        });
+        Http::assertSent(function (Request $request): bool {
+            if (! str_ends_with($request->url(), '/setMyCommands')) {
+                return false;
+            }
+
+            return array_column($request['commands'], 'command') === ['start', 'language', 'stop'];
         });
     }
 

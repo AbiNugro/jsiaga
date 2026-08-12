@@ -274,7 +274,10 @@ Perintah yang tersedia:
 
 - `/start` untuk mengaktifkan atau mengaktifkan kembali notifikasi.
 - `/stop` untuk berhenti menerima notifikasi.
+- `/bahasa` atau `/language` untuk memilih Bahasa Indonesia, English, atau 한국어.
 - `/help` untuk melihat bantuan.
+
+Pilihan bahasa disimpan untuk setiap pengguna. Pesan bot dan peringatan status sensor berikutnya akan menggunakan bahasa yang dipilih pengguna tersebut. Pengguna lama menggunakan Bahasa Indonesia sampai memilih bahasa lain.
 
 Chat ID masing-masing pengguna disimpan otomatis di database. Tidak ada `TELEGRAM_CHAT_ID` tunggal di `.env`.
 
@@ -290,6 +293,12 @@ Setelah sedikitnya satu pengguna mengirim `/start`, jalankan:
 
 ```bash
 php artisan jsiaga:test-telegram
+```
+
+Setelah menambahkan atau mengubah menu bahasa, jalankan kembali perintah berikut agar webhook menerima klik tombol dan menu perintah bot diperbarui:
+
+```bash
+php artisan jsiaga:telegram-set-webhook
 ```
 
 Hasil yang benar:

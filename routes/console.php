@@ -69,7 +69,7 @@ Artisan::command('jsiaga:telegram-set-webhook', function () {
         [
             'url' => $webhookUrl,
             'secret_token' => $secret,
-            'allowed_updates' => ['message'],
+            'allowed_updates' => ['message', 'callback_query'],
             'drop_pending_updates' => false,
         ],
     );
@@ -81,6 +81,15 @@ Artisan::command('jsiaga:telegram-set-webhook', function () {
     }
 
     $this->components->info('Webhook Telegram aktif: '.$webhookUrl);
+
+    Http::asJson()->timeout(10)->post(
+        'https://api.telegram.org/bot'.$token.'/setMyCommands',
+        ['commands' => [
+            ['command' => 'start', 'description' => 'Berlangganan peringatan'],
+            ['command' => 'language', 'description' => 'Pilih bahasa notifikasi'],
+            ['command' => 'stop', 'description' => 'Berhenti berlangganan'],
+        ]],
+    );
 
     return 0;
 })->purpose('Mendaftarkan webhook Telegram untuk pelanggan J-SIAGA');
