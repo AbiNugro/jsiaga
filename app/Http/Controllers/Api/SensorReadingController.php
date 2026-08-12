@@ -9,6 +9,7 @@ use App\Http\Resources\SensorReadingResource;
 use App\Models\SensorReading;
 use App\Services\FloodStatusService;
 use App\Services\SensorRetentionService;
+use App\Services\TelegramAlertService;
 use App\Support\SensorRange;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
@@ -19,6 +20,7 @@ class SensorReadingController extends Controller
         StoreSensorReadingRequest $request,
         FloodStatusService $service,
         SensorRetentionService $retention,
+        TelegramAlertService $telegram,
     ): JsonResponse {
         if (Cache::add('jsiaga:retention-pruned', true, now()->addDay())) {
             $retention->prune();
@@ -33,6 +35,7 @@ class SensorReadingController extends Controller
         ];
         $interval = max(1, (int) config('services.jsiaga.history_interval_seconds', 10));
         $latest = SensorReading::query()->latest('recorded_at')->first();
+        $previousStatus = $latest?->status;
         $compacted = $latest?->created_at?->gte(now()->subSeconds($interval)) ?? false;
 
         if ($compacted) {
@@ -41,6 +44,8 @@ class SensorReadingController extends Controller
         } else {
             $reading = SensorReading::query()->create($values);
         }
+
+        $telegram->sendStatusChange($previousStatus, $reading);
 
         return response()->json([
             'success' => true,

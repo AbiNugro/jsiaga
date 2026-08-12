@@ -48,6 +48,17 @@ return [
         'timeout' => (int) env('GROQ_TIMEOUT', 10),
     ],
 
+    'telegram' => [
+        'enabled' => (bool) env('TELEGRAM_NOTIFICATIONS_ENABLED', false),
+        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
+        'webhook_secret' => env('TELEGRAM_WEBHOOK_SECRET'),
+        'statuses' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) env('TELEGRAM_NOTIFY_STATUSES', 'WARNING,DANGER,FLOOD,SAFE')),
+        ))),
+        'timeout' => (int) env('TELEGRAM_TIMEOUT', 5),
+    ],
+
     'ai_limits' => [
         'per_minute' => (int) env('AI_REQUESTS_PER_MINUTE', 10),
         'per_day' => (int) env('AI_REQUESTS_PER_DAY', 100),

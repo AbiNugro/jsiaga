@@ -1,9 +1,12 @@
 <?php
 
+use App\Models\TelegramSubscriber;
 use App\Services\SensorRetentionService;
+use App\Services\TelegramAlertService;
 use Database\Seeders\SensorReadingSeeder;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
@@ -19,6 +22,75 @@ Artisan::command('jsiaga:prune-sensor-readings', function (SensorRetentionServic
     $deleted = $retention->prune();
     $this->components->info($deleted.' data sensor lama berhasil dihapus.');
 })->purpose('Menghapus riwayat sensor yang melewati masa retensi');
+
+Artisan::command('jsiaga:test-telegram', function (TelegramAlertService $telegram) {
+    if (! $telegram->isEnabled()) {
+        $this->components->error('Telegram belum aktif. Periksa TELEGRAM_NOTIFICATIONS_ENABLED dan TELEGRAM_BOT_TOKEN.');
+
+        return 1;
+    }
+
+    if (TelegramSubscriber::query()->active()->doesntExist()) {
+        $this->components->error('Belum ada pelanggan aktif. Buka bot Telegram lalu kirim /start.');
+
+        return 1;
+    }
+
+    if (! $telegram->sendTest()) {
+        $this->components->error('Pesan Telegram gagal dikirim. Periksa token, pelanggan aktif, koneksi VPS, dan storage/logs/laravel.log.');
+
+        return 1;
+    }
+
+    $this->components->info('Pesan tes Telegram berhasil dikirim.');
+
+    return 0;
+})->purpose('Menguji konfigurasi notifikasi Telegram J-SIAGA');
+
+Artisan::command('jsiaga:telegram-set-webhook', function () {
+    $token = (string) config('services.telegram.bot_token');
+    $secret = (string) config('services.telegram.webhook_secret');
+
+    if ($token === '' || $secret === '') {
+        $this->components->error('TELEGRAM_BOT_TOKEN dan TELEGRAM_WEBHOOK_SECRET wajib diisi.');
+
+        return 1;
+    }
+
+    if (! preg_match('/^[A-Za-z0-9_-]{1,256}$/', $secret)) {
+        $this->components->error('TELEGRAM_WEBHOOK_SECRET hanya boleh berisi huruf, angka, garis bawah, dan tanda minus.');
+
+        return 1;
+    }
+
+    $webhookUrl = rtrim((string) config('app.url'), '/').'/api/telegram/webhook';
+    $response = Http::asJson()->timeout(10)->post(
+        'https://api.telegram.org/bot'.$token.'/setWebhook',
+        [
+            'url' => $webhookUrl,
+            'secret_token' => $secret,
+            'allowed_updates' => ['message'],
+            'drop_pending_updates' => false,
+        ],
+    );
+
+    if (! $response->successful() || ! $response->json('ok')) {
+        $this->components->error('Webhook Telegram gagal diaktifkan. Periksa konfigurasi dan log Laravel.');
+
+        return 1;
+    }
+
+    $this->components->info('Webhook Telegram aktif: '.$webhookUrl);
+
+    return 0;
+})->purpose('Mendaftarkan webhook Telegram untuk pelanggan J-SIAGA');
+
+Artisan::command('jsiaga:telegram-subscribers', function () {
+    $active = TelegramSubscriber::query()->active()->count();
+    $total = TelegramSubscriber::query()->count();
+
+    $this->components->info("Pelanggan Telegram aktif: {$active} dari {$total} terdaftar.");
+})->purpose('Menampilkan jumlah pelanggan Telegram J-SIAGA');
 
 Schedule::command('jsiaga:prune-sensor-readings')
     ->dailyAt('02:00')

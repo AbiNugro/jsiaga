@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\RecommendationController;
 use App\Http\Controllers\Api\SensorReadingController;
+use App\Http\Controllers\Api\TelegramWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -14,3 +15,6 @@ Route::prefix('v1')->group(function () {
     Route::post('/chat', ChatController::class)->middleware('throttle:chat');
     Route::post('/recommendations/explain', RecommendationController::class)->middleware('throttle:chat');
 });
+
+Route::post('/telegram/webhook', TelegramWebhookController::class)
+    ->middleware('throttle:120,1');
