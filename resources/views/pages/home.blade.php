@@ -1,7 +1,11 @@
 <x-layouts.app :title="__('ui.home.title')" :latest="$latest">
     <div data-page="home" class="space-y-6">
-        <x-section-header :eyebrow="__('ui.home.eyebrow')" :title="__('ui.home.heading')" :description="__('ui.home.description')" />
-
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <x-section-header :eyebrow="__('ui.home.eyebrow')" :title="__('ui.home.heading')" :description="__('ui.home.description')" />
+            <a href="https://t.me/JSiagaAlertBot" target="_blank" rel="noopener noreferrer" class="primary-button shrink-0">
+                <x-icon name="send" class="size-4" /> {{ __('ui.home.subscribe_telegram') }}
+            </a>
+        </div>
         @php
             $effectiveStatus = $latest?->effectiveStatus();
             $isOffline = $effectiveStatus === 'OFFLINE';

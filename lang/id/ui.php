@@ -34,7 +34,7 @@ return [
         'description' => 'Baca status utama, level air, dan sensor lingkungan tanpa istilah teknis yang rumit.',
         'section_sensor' => 'Sensor lingkungan', 'latest_reading' => 'Pembacaan terbaru', 'refresh_note' => 'Pembaruan 1 detik',
         'trend' => 'Tren singkat', 'latest_level' => 'Level air terbaru', 'chart_label' => 'Grafik level air terbaru',
-        'system_recommendation' => 'Rekomendasi sistem', 'view_guide' => 'Lihat panduan lengkap',
+        'system_recommendation' => 'Rekomendasi sistem', 'view_guide' => 'Lihat panduan lengkap', 'subscribe_telegram' => 'Berlangganan Telegram',
     ],
     'history' => [
         'title' => 'Riwayat', 'eyebrow' => 'Analisis waktu', 'heading' => 'Riwayat level air',

@@ -34,7 +34,7 @@ return [
         'description' => '복잡한 기술 용어 없이 주요 상태, 수위, 환경 센서를 확인하세요.',
         'section_sensor' => '환경 센서', 'latest_reading' => '최신 측정값', 'refresh_note' => '1초마다 업데이트',
         'trend' => '최근 추세', 'latest_level' => '최신 수위', 'chart_label' => '최신 수위 그래프',
-        'system_recommendation' => '시스템 권장사항', 'view_guide' => '전체 안전수칙 보기',
+        'system_recommendation' => '시스템 권장사항', 'view_guide' => '전체 안전수칙 보기', 'subscribe_telegram' => '텔레그램 구독하기',
     ],
     'history' => [
         'title' => '기록', 'eyebrow' => '시간 분석', 'heading' => '수위 기록',

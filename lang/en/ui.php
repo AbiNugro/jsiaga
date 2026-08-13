@@ -34,7 +34,7 @@ return [
         'description' => 'Read the main status, water level, and environmental sensors without complicated technical terms.',
         'section_sensor' => 'Environmental sensors', 'latest_reading' => 'Latest readings', 'refresh_note' => 'Updates every second',
         'trend' => 'Short trend', 'latest_level' => 'Latest water level', 'chart_label' => 'Latest water level chart',
-        'system_recommendation' => 'System recommendation', 'view_guide' => 'View complete guide',
+        'system_recommendation' => 'System recommendation', 'view_guide' => 'View complete guide', 'subscribe_telegram' => 'Subscribe Telegram',
     ],
     'history' => [
         'title' => 'History', 'eyebrow' => 'Time analysis', 'heading' => 'Water level history',
