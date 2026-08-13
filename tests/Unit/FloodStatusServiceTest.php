@@ -54,4 +54,18 @@ class FloodStatusServiceTest extends TestCase
     {
         $this->assertSame(100, $this->service->waterLevelFor(-5));
     }
+
+    public function test_warning_tidak_langsung_kembali_safe_di_dekat_batas(): void
+    {
+        $this->assertSame('WARNING', $this->service->statusFor(8.6, 'WARNING'));
+        $this->assertSame('WARNING', $this->service->statusFor(8.8, 'WARNING'));
+        $this->assertSame('SAFE', $this->service->statusFor(8.81, 'WARNING'));
+    }
+
+    public function test_perubahan_ke_status_lebih_buruk_tidak_ditunda(): void
+    {
+        $this->assertSame('WARNING', $this->service->statusFor(8.5, 'SAFE'));
+        $this->assertSame('DANGER', $this->service->statusFor(6.8, 'WARNING'));
+        $this->assertSame('FLOOD', $this->service->statusFor(6.49, 'DANGER'));
+    }
 }

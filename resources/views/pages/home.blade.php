@@ -2,7 +2,10 @@
     <div data-page="home" class="space-y-6">
         <x-section-header :eyebrow="__('ui.home.eyebrow')" :title="__('ui.home.heading')" :description="__('ui.home.description')" />
 
-        @php $effectiveStatus = $latest?->effectiveStatus(); @endphp
+        @php
+            $effectiveStatus = $latest?->effectiveStatus();
+            $isOffline = $effectiveStatus === 'OFFLINE';
+        @endphp
         <div data-safety-alert data-state="{{ $effectiveStatus }}" role="alert" aria-live="assertive" @class(['safety-alert', 'safety-alert-warning' => $effectiveStatus === 'WARNING', 'safety-alert-danger' => $effectiveStatus === 'DANGER', 'safety-alert-flood' => $effectiveStatus === 'FLOOD', 'safety-alert-offline' => $effectiveStatus === 'OFFLINE', 'hidden' => !in_array($effectiveStatus, ['WARNING', 'DANGER', 'FLOOD', 'OFFLINE'])])>
             <x-icon name="alert" class="size-5 shrink-0" />
             <div><strong data-safety-alert-title>{{ $effectiveStatus ? __('ui.alerts.'.strtolower($effectiveStatus).'.title') : '' }}</strong><p data-safety-alert-body class="mt-1 text-sm">{{ $effectiveStatus ? __('ui.alerts.'.strtolower($effectiveStatus).'.body') : '' }}</p></div>
@@ -16,10 +19,10 @@
                 <article class="surface flex min-h-56 items-center justify-between gap-3 p-5 sm:p-6 md:flex-col md:justify-center">
                     <div>
                         <p class="text-sm font-semibold text-muted">{{ __('ui.water.level') }}</p>
-                        <p class="mt-1 text-xl font-bold text-ink tabular-nums"><span data-current-water-level>{{ round($latest->water_level) }}</span>%</p>
+                        <p class="mt-1 text-xl font-bold text-ink tabular-nums"><span data-current-water-level>{{ $isOffline ? '-' : round($latest->water_level) }}</span><span data-current-water-level-unit @class(['hidden' => $isOffline])>%</span></p>
                         <p class="mt-3 max-w-32 text-pretty text-xs leading-5 text-muted">{{ __('ui.water.explanation') }}</p>
                     </div>
-                    <x-water-level-gauge :value="$latest->water_level" :status="$latest->effectiveStatus()" />
+                    <x-water-level-gauge :value="$isOffline ? null : $latest->water_level" :status="$effectiveStatus" />
                 </article>
             </section>
 
@@ -29,10 +32,10 @@
                     <span class="text-xs text-muted">{{ __('ui.home.refresh_note') }}</span>
                 </div>
                 <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
-                    <x-sensor-card icon="waves" :label="__('ui.water.level')" :value="$latest->water_level" unit="%" key="water_level" />
-                    <x-sensor-card icon="thermometer" :label="__('ui.sensor.temperature')" :value="$latest->temperature" unit="°C" key="temperature" />
-                    <x-sensor-card icon="droplet" :label="__('ui.sensor.humidity')" :value="$latest->humidity" unit="%" key="humidity" />
-                    <x-sensor-card icon="sun" :label="__('ui.sensor.light')" :value="$latest->light" :display-value="$lightCondition ? __('ui.sensor.light_conditions.'.$lightCondition) : null" key="light" />
+                    <x-sensor-card icon="waves" :label="__('ui.water.level')" :value="$isOffline ? null : $latest->water_level" unit="%" key="water_level" />
+                    <x-sensor-card icon="thermometer" :label="__('ui.sensor.temperature')" :value="$isOffline ? null : $latest->temperature" unit="°C" key="temperature" />
+                    <x-sensor-card icon="droplet" :label="__('ui.sensor.humidity')" :value="$isOffline ? null : $latest->humidity" unit="%" key="humidity" />
+                    <x-sensor-card icon="sun" :label="__('ui.sensor.light')" :value="$isOffline ? null : $latest->light" :display-value="!$isOffline && $lightCondition ? __('ui.sensor.light_conditions.'.$lightCondition) : null" key="light" />
                 </div>
             </section>
 

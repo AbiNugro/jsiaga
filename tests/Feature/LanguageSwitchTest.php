@@ -89,7 +89,30 @@ class LanguageSwitchTest extends TestCase
             ->assertSee('WARNING. Waspada, level air meningkat')
             ->assertSee('DANGER. Bahaya banjir')
             ->assertSee('FLOOD. Banjir terdeteksi')
+            ->assertSee('data-current-water-level>-</span>', false)
+            ->assertSee('data-gauge-value>-</span>', false)
+            ->assertSee('data-sensor-value="water_level">-</span>', false)
+            ->assertSee('data-sensor-value="temperature">-</span>', false)
+            ->assertSee('data-sensor-value="humidity">-</span>', false)
+            ->assertSee('data-sensor-value="light">-</span>', false)
             ->assertDontSee('data-status="SAFE"', false);
+    }
+
+    public function test_rekomendasi_tidak_menampilkan_nilai_sensor_lama_saat_offline(): void
+    {
+        config(['services.jsiaga.offline_seconds' => 15]);
+        SensorReading::factory()->create([
+            'water_level' => 75,
+            'light' => 300,
+            'recorded_at' => now()->subMinute(),
+        ]);
+
+        $this->get('/rekomendasi')
+            ->assertOk()
+            ->assertSee('data-recommendation-water-level class="mt-1 text-2xl font-bold tabular-nums">-</dd>', false)
+            ->assertSee('data-recommendation-light class="mt-1 text-2xl font-bold">-</dd>', false)
+            ->assertDontSee('>75%</dd>', false)
+            ->assertDontSee('>Mendung</dd>', false);
     }
 
     public function test_kondisi_cahaya_riwayat_tampil_sebagai_kategori_tanpa_angka_ldr(): void

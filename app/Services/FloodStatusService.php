@@ -29,6 +29,11 @@ final class FloodStatusService
 
     public const FLOOD_DISTANCE_CM = 6.5;
 
+    // Status yang membaik harus melewati batas ini agar noise beberapa
+    // milimeter tidak membuat status bolak-balik. Status yang memburuk
+    // tetap diterapkan langsung demi keselamatan.
+    public const RECOVERY_HYSTERESIS_CM = 0.3;
+
     // Batas valid pembacaan fisik sensor. Ini bukan batas status banjir.
     public const MAX_SENSOR_DISTANCE_CM = 400;
 
@@ -40,7 +45,41 @@ final class FloodStatusService
 
     public const FLOOD = 'FLOOD';
 
-    public function statusFor(float $distance): string
+    public function statusFor(float $distance, ?string $previousStatus = null): string
+    {
+        $status = $this->rawStatusFor($distance);
+
+        if ($previousStatus === null || $status === $previousStatus) {
+            return $status;
+        }
+
+        $severity = [
+            self::SAFE => 0,
+            self::WARNING => 1,
+            self::DANGER => 2,
+            self::FLOOD => 3,
+        ];
+
+        // Perubahan ke kondisi lebih buruk tidak ditunda.
+        if (($severity[$status] ?? 0) > ($severity[$previousStatus] ?? 0)) {
+            return $status;
+        }
+
+        $recoveryThreshold = match ($previousStatus) {
+            self::WARNING => self::WARNING_DISTANCE_CM + self::RECOVERY_HYSTERESIS_CM,
+            self::DANGER => self::DANGER_DISTANCE_CM + self::RECOVERY_HYSTERESIS_CM,
+            self::FLOOD => self::FLOOD_DISTANCE_CM + self::RECOVERY_HYSTERESIS_CM,
+            default => null,
+        };
+
+        if ($recoveryThreshold !== null && $distance <= $recoveryThreshold) {
+            return $previousStatus;
+        }
+
+        return $status;
+    }
+
+    private function rawStatusFor(float $distance): string
     {
         if ($distance < self::FLOOD_DISTANCE_CM) {
             return self::FLOOD;
@@ -66,10 +105,10 @@ final class FloodStatusService
     }
 
     /** @return array{status: string, water_level: int} */
-    public function calculate(float $distance): array
+    public function calculate(float $distance, ?string $previousStatus = null): array
     {
         return [
-            'status' => $this->statusFor($distance),
+            'status' => $this->statusFor($distance, $previousStatus),
             'water_level' => $this->waterLevelFor($distance),
         ];
     }

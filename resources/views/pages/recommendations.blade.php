@@ -1,4 +1,5 @@
 <x-layouts.app :title="__('ui.recommendations.title')" :latest="$latest">
+    @php $isOffline = $latest?->effectiveStatus() === 'OFFLINE'; @endphp
     <div data-page="recommendations" class="space-y-6">
         <x-section-header :eyebrow="__('ui.recommendations.eyebrow')" :title="__('ui.recommendations.heading')" :description="__('ui.recommendations.description')" />
 
@@ -9,8 +10,8 @@
                 <article class="surface p-5 sm:p-6">
                     <div class="flex items-center justify-between gap-3"><p class="text-xs font-bold uppercase text-teal">{{ __('ui.sensor.latest') }}</p><x-status-badge :status="$latest->effectiveStatus()" data-recommendation-status /></div>
                     <dl class="mt-5 grid grid-cols-2 gap-4">
-                        <div><dt class="text-xs text-muted">{{ __('ui.water.level') }}</dt><dd data-recommendation-water-level class="mt-1 text-2xl font-bold tabular-nums">{{ $latest->water_level }}%</dd></div>
-                        <div><dt class="text-xs text-muted">{{ __('ui.sensor.light') }}</dt><dd data-recommendation-light class="mt-1 text-2xl font-bold">{{ $lightCondition ? __('ui.sensor.light_conditions.'.$lightCondition) : __('ui.common.unavailable') }}</dd></div>
+                        <div><dt class="text-xs text-muted">{{ __('ui.water.level') }}</dt><dd data-recommendation-water-level class="mt-1 text-2xl font-bold tabular-nums">{{ $isOffline ? '-' : $latest->water_level.'%' }}</dd></div>
+                        <div><dt class="text-xs text-muted">{{ __('ui.sensor.light') }}</dt><dd data-recommendation-light class="mt-1 text-2xl font-bold">{{ $isOffline ? '-' : ($lightCondition ? __('ui.sensor.light_conditions.'.$lightCondition) : __('ui.common.unavailable')) }}</dd></div>
                         <div class="col-span-2 border-t border-navy/5 pt-4"><dt class="text-xs text-muted">{{ __('ui.recommendations.last_update') }}</dt><dd data-recommendation-updated class="mt-1 text-sm font-semibold">{{ $latest->recorded_at->timezone('Asia/Jakarta')->translatedFormat('d M Y, H:i:s') }} WIB</dd></div>
                     </dl>
                 </article>

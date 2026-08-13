@@ -105,6 +105,7 @@ function lightCondition(value) {
 function updateHome(reading) {
     if (!reading) return;
     const status = reading.effective_status || (reading.is_stale ? 'OFFLINE' : reading.status);
+    const isOffline = status === 'OFFLINE';
     const card = document.querySelector('[data-status-card]');
     if (!card) { window.location.reload(); return; }
     card.dataset.status = status;
@@ -120,18 +121,26 @@ function updateHome(reading) {
     document.querySelectorAll('[data-sensor-value]').forEach(node => {
         const key = node.dataset.sensorValue;
         const value = reading[key];
-        node.textContent = key === 'light' ? lightCondition(value) : numberValue(value);
-        if (key === 'light' && value !== null && value !== undefined) node.dataset.rawValue = String(value);
+        node.textContent = isOffline ? '-' : (key === 'light' ? lightCondition(value) : numberValue(value));
+        const unit = node.parentElement?.querySelector('[data-sensor-unit]');
+        if (unit) unit.classList.toggle('hidden', isOffline);
+        if (key === 'light' && !isOffline && value !== null && value !== undefined) {
+            node.dataset.rawValue = String(value);
+        } else {
+            delete node.dataset.rawValue;
+        }
     });
     const gauge = document.querySelector('[data-gauge]');
     if (gauge) {
-        const level = Math.max(0, Math.min(100, Number(reading.water_level)));
+        const level = isOffline ? 0 : Math.max(0, Math.min(100, Number(reading.water_level)));
         gauge.dataset.status = status;
         gauge.dataset.value = level;
         gauge.querySelector('.gauge-progress').style.strokeDashoffset = String(100 - level);
-        gauge.querySelector('[data-gauge-value]').textContent = String(Math.round(level));
+        gauge.querySelector('[data-gauge-value]').textContent = isOffline ? '-' : String(Math.round(level));
+        gauge.querySelector('[data-gauge-unit]')?.classList.toggle('hidden', isOffline);
         const currentWaterLevel = document.querySelector('[data-current-water-level]');
-        if (currentWaterLevel) currentWaterLevel.textContent = String(Math.round(level));
+        if (currentWaterLevel) currentWaterLevel.textContent = isOffline ? '-' : String(Math.round(level));
+        document.querySelector('[data-current-water-level-unit]')?.classList.toggle('hidden', isOffline);
     }
     const copy = recommendations[status];
     if (copy) {
@@ -307,6 +316,22 @@ if (page === 'home') {
             document.querySelector('[data-recommendation-title]').textContent = copy[0];
             document.querySelector('[data-recommendation-summary]').textContent = copy[1];
         }
+        document.querySelectorAll('[data-sensor-value]').forEach(node => {
+            node.textContent = '-';
+            node.parentElement?.querySelector('[data-sensor-unit]')?.classList.add('hidden');
+            delete node.dataset.rawValue;
+        });
+        const gauge = document.querySelector('[data-gauge]');
+        if (gauge) {
+            gauge.dataset.status = 'OFFLINE';
+            gauge.dataset.value = '0';
+            gauge.querySelector('.gauge-progress').style.strokeDashoffset = '100';
+            gauge.querySelector('[data-gauge-value]').textContent = '-';
+            gauge.querySelector('[data-gauge-unit]')?.classList.add('hidden');
+        }
+        const currentWaterLevel = document.querySelector('[data-current-water-level]');
+        if (currentWaterLevel) currentWaterLevel.textContent = '-';
+        document.querySelector('[data-current-water-level-unit]')?.classList.add('hidden');
         handleStatus('OFFLINE');
     };
 
@@ -406,8 +431,8 @@ if (page === 'recommendations') {
             const labelNode = statusBadge.querySelector('[data-status-badge-label]');
             if (labelNode) labelNode.textContent = status === 'OFFLINE' ? (ui.status?.OFFLINE || 'OFFLINE') : status;
         }
-        if (waterLevel) waterLevel.textContent = `${numberValue(reading.water_level)}%`;
-        if (light) light.textContent = lightCondition(reading.light);
+        if (waterLevel) waterLevel.textContent = latestOffline ? '-' : `${numberValue(reading.water_level)}%`;
+        if (light) light.textContent = latestOffline ? '-' : lightCondition(reading.light);
         if (updated && reading.recorded_at) {
             updated.textContent = new Intl.DateTimeFormat(browserLocale, {
                 timeZone: 'Asia/Jakarta', day: '2-digit', month: 'short', year: 'numeric',
@@ -429,6 +454,8 @@ if (page === 'recommendations') {
             updateRecommendationLatest(payload.data);
         } catch {
             latestOffline = true;
+            if (waterLevel) waterLevel.textContent = '-';
+            if (light) light.textContent = '-';
             if (button) button.disabled = true;
             handleStatus('OFFLINE');
         } finally {

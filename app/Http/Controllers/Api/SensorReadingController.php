@@ -27,14 +27,17 @@ class SensorReadingController extends Controller
         }
 
         $validated = $request->validated();
-        $calculated = $service->calculate((float) $validated['distance']);
+        $latest = SensorReading::query()->latest('recorded_at')->first();
+        $calculated = $service->calculate(
+            (float) $validated['distance'],
+            $latest?->status,
+        );
         $values = [
             ...$validated,
             ...$calculated,
             'recorded_at' => $validated['recorded_at'] ?? now(),
         ];
         $interval = max(1, (int) config('services.jsiaga.history_interval_seconds', 10));
-        $latest = SensorReading::query()->latest('recorded_at')->first();
         $previousStatus = $latest?->offline_notified_at ? 'OFFLINE' : $latest?->status;
         $compacted = $latest?->created_at?->gte(now()->subSeconds($interval)) ?? false;
 

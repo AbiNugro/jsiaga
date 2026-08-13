@@ -57,6 +57,7 @@ return [
             explode(',', (string) env('TELEGRAM_NOTIFY_STATUSES', 'WARNING,DANGER,FLOOD,SAFE')),
         ))),
         'timeout' => (int) env('TELEGRAM_TIMEOUT', 5),
+        'alert_cooldown_seconds' => (int) env('TELEGRAM_ALERT_COOLDOWN_SECONDS', 60),
     ],
 
     'ai_limits' => [

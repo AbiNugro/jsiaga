@@ -8,7 +8,7 @@
         <path class="gauge-waterline" d="M34 73c8-5 14 5 23 0s15 5 29 0" />
     </svg>
     <div class="absolute inset-0 grid place-content-center text-center">
-        <strong class="text-3xl font-bold text-ink tabular-nums"><span data-gauge-value>{{ $value === null ? '—' : round($level) }}</span><span class="text-base">%</span></strong>
+        <strong class="text-3xl font-bold text-ink tabular-nums"><span data-gauge-value>{{ $value === null ? '-' : round($level) }}</span><span data-gauge-unit @class(['text-base', 'hidden' => $value === null])>%</span></strong>
         <span class="mt-0.5 text-xs font-semibold text-muted">{{ __('ui.water.level') }}</span>
     </div>
 </div>

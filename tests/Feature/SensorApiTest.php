@@ -132,6 +132,24 @@ class SensorApiTest extends TestCase
         $this->assertDatabaseCount('sensor_readings', 2);
     }
 
+    public function test_status_warning_memakai_hysteresis_sebelum_kembali_safe(): void
+    {
+        $this->withHeader('X-Device-Token', 'device-test-token')
+            ->postJson('/api/v1/sensor-readings', ['distance' => 8.4])
+            ->assertCreated()
+            ->assertJsonPath('data.status', 'WARNING');
+
+        $this->withHeader('X-Device-Token', 'device-test-token')
+            ->postJson('/api/v1/sensor-readings', ['distance' => 8.6])
+            ->assertOk()
+            ->assertJsonPath('data.status', 'WARNING');
+
+        $this->withHeader('X-Device-Token', 'device-test-token')
+            ->postJson('/api/v1/sensor-readings', ['distance' => 8.81])
+            ->assertOk()
+            ->assertJsonPath('data.status', 'SAFE');
+    }
+
     public function test_perintah_retensi_menghapus_data_yang_melewati_batas(): void
     {
         config(['services.jsiaga.retention_days' => 7]);

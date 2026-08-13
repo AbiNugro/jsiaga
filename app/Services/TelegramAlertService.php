@@ -5,12 +5,15 @@ namespace App\Services;
 use App\Models\SensorReading;
 use App\Models\TelegramSubscriber;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 final class TelegramAlertService
 {
+    private const STATUS_ALERT_CACHE_KEY = 'jsiaga:telegram:last-status-alert';
+
     public function isEnabled(): bool
     {
         return (bool) config('services.telegram.enabled')
@@ -67,15 +70,30 @@ final class TelegramAlertService
         $previousStatus = $previousStatus ? strtoupper($previousStatus) : null;
 
         if (! $this->isEnabled()
-            || $status === $previousStatus
-            || ($previousStatus === null && $status === FloodStatusService::SAFE)
             || ! in_array($status, $this->notifiableStatuses(), true)) {
             return false;
         }
 
-        return $this->broadcastLocalized(
+        $lastAlert = Cache::get(self::STATUS_ALERT_CACHE_KEY);
+
+        if (! is_array($lastAlert)) {
+            if ($status === $previousStatus
+                || ($previousStatus === null && $status === FloodStatusService::SAFE)) {
+                return false;
+            }
+        } elseif (! $this->shouldSendStatusAlert($status, $previousStatus, $lastAlert)) {
+            return false;
+        }
+
+        $sent = $this->broadcastLocalized(
             fn (string $locale): string => $this->statusMessage($previousStatus, $status, $reading, $locale)
         ) > 0;
+
+        if ($sent) {
+            $this->rememberStatusAlert($status);
+        }
+
+        return $sent;
     }
 
     public function sendOffline(SensorReading $reading): bool
@@ -84,9 +102,21 @@ final class TelegramAlertService
             return false;
         }
 
-        return $this->broadcastLocalized(
+        $lastAlert = Cache::get(self::STATUS_ALERT_CACHE_KEY);
+
+        if (is_array($lastAlert) && ($lastAlert['status'] ?? null) === 'OFFLINE') {
+            return false;
+        }
+
+        $sent = $this->broadcastLocalized(
             fn (string $locale): string => $this->statusMessage((string) $reading->status, 'OFFLINE', $reading, $locale)
         ) > 0;
+
+        if ($sent) {
+            $this->rememberStatusAlert('OFFLINE');
+        }
+
+        return $sent;
     }
 
     public function sendTest(): bool
@@ -201,6 +231,48 @@ final class TelegramAlertService
             static fn (mixed $status): string => strtoupper(trim((string) $status)),
             (array) config('services.telegram.statuses', []),
         ));
+    }
+
+    /** @param array{status?: mixed, sent_at?: mixed} $lastAlert */
+    private function shouldSendStatusAlert(string $status, ?string $previousStatus, array $lastAlert): bool
+    {
+        $lastStatus = strtoupper((string) ($lastAlert['status'] ?? ''));
+
+        if ($lastStatus === 'OFFLINE' || $previousStatus === 'OFFLINE') {
+            return true;
+        }
+
+        // Eskalasi bahaya tidak menunggu cooldown.
+        if ($this->severity($status) > $this->severity($lastStatus)) {
+            return true;
+        }
+
+        if ($status === $lastStatus) {
+            return false;
+        }
+
+        $cooldown = max(1, (int) config('services.telegram.alert_cooldown_seconds', 60));
+        $sentAt = (int) ($lastAlert['sent_at'] ?? 0);
+
+        return now()->timestamp - $sentAt >= $cooldown;
+    }
+
+    private function rememberStatusAlert(string $status): void
+    {
+        Cache::forever(self::STATUS_ALERT_CACHE_KEY, [
+            'status' => strtoupper($status),
+            'sent_at' => now()->timestamp,
+        ]);
+    }
+
+    private function severity(string $status): int
+    {
+        return match (strtoupper($status)) {
+            FloodStatusService::WARNING => 1,
+            FloodStatusService::DANGER => 2,
+            FloodStatusService::FLOOD => 3,
+            default => 0,
+        };
     }
 
     private function logFailure(Response $response, ?string $chatId, string $method): void

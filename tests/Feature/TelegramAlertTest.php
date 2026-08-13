@@ -6,6 +6,7 @@ use App\Models\SensorReading;
 use App\Models\TelegramSubscriber;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
@@ -18,6 +19,8 @@ class TelegramAlertTest extends TestCase
     {
         parent::setUp();
 
+        Cache::flush();
+
         config([
             'app.url' => 'https://jsiaga.me',
             'services.jsiaga.device_token' => 'device-test-token',
@@ -26,6 +29,7 @@ class TelegramAlertTest extends TestCase
             'services.telegram.webhook_secret' => 'webhook-test-secret',
             'services.telegram.statuses' => ['WARNING', 'DANGER', 'FLOOD', 'SAFE'],
             'services.telegram.timeout' => 1,
+            'services.telegram.alert_cooldown_seconds' => 60,
         ]);
     }
 
@@ -151,6 +155,37 @@ class TelegramAlertTest extends TestCase
 
         Http::assertSentCount(1);
         Http::assertSent(fn (Request $request): bool => str_contains($request['text'], 'BELUM ADA DATA -> DANGER'));
+    }
+
+    public function test_status_yang_naik_turun_tidak_membanjiri_telegram_dalam_satu_menit(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => '101', 'is_active' => true]);
+
+        $this->sendReading(9)->assertCreated()->assertJsonPath('data.status', 'SAFE');
+        $this->sendReading(7.5)->assertOk()->assertJsonPath('data.status', 'WARNING');
+        $this->sendReading(9)->assertOk()->assertJsonPath('data.status', 'SAFE');
+        $this->sendReading(7.5)->assertOk()->assertJsonPath('data.status', 'WARNING');
+
+        Http::assertSentCount(1);
+
+        $this->travel(61)->seconds();
+        $this->sendReading(9)->assertCreated()->assertJsonPath('data.status', 'SAFE');
+
+        Http::assertSentCount(2);
+        Http::assertSent(fn (Request $request): bool => str_contains($request['text'], 'WARNING -> SAFE'));
+    }
+
+    public function test_status_yang_makin_berbahaya_tetap_dikirim_tanpa_menunggu_satu_menit(): void
+    {
+        Http::fake(['api.telegram.org/*' => Http::response(['ok' => true])]);
+        TelegramSubscriber::query()->create(['chat_id' => '101', 'is_active' => true]);
+
+        $this->sendReading(7.5)->assertCreated()->assertJsonPath('data.status', 'WARNING');
+        $this->sendReading(6.6)->assertOk()->assertJsonPath('data.status', 'DANGER');
+        $this->sendReading(6)->assertOk()->assertJsonPath('data.status', 'FLOOD');
+
+        Http::assertSentCount(3);
     }
 
     public function test_kegagalan_telegram_tidak_menggagalkan_penyimpanan_sensor(): void
